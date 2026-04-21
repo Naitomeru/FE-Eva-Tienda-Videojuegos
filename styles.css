@@ -17,6 +17,7 @@ header {
 
 .main-body {
     display: flex;
+    justify-content: center;
 }
 
 .body-space {
@@ -36,4 +37,20 @@ header {
 
 .center-button {
     text-align: center;
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    background-color: gray;
+    align-items: center;
+}
+
+.footer-flex {
+    display: flex;
+}
+
+.footer-section {
+    display: flex;
+    flex-direction: column;
 }
