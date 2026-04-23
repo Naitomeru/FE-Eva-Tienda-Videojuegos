@@ -5,19 +5,93 @@
 header {
     display: flex;
     flex-direction: column;
+
+    background-color: cadetblue;
 }
 
 .header-main {
     display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 10px 0px;
+}
+
+#header-logo {
+    background-color: aqua;
+    border-radius: 50px;
+    width: 150px;
+    height: 50px;
+}
+
+#header-searcher {
+    display: flex;
+}
+
+#header-searcher form input[type=text] {
+    padding: 10px;
+    margin: 0%;
+    border: 0px;
+    font-size: 17px;
+
+    border-radius: 10px 0 0 10px;
+}
+
+#header-searcher form button {
+    float: right;
+    border: 0px;
+    padding: 10px 12px;
+    font-size: 17px;
+    cursor: pointer;
+
+    border-radius: 0 10px 10px 0;
+    background-color: rgb(152, 255, 203);
+}
+
+#header-searcher form button:hover {
+    background-color: rgb(91, 214, 153);
+}
+
+#header-searcher form button:active {
+    background-color: rgb(35, 180, 108);
 }
 
 .header-buttons-container {
     display: flex;
+    justify-content: center;
+
+    background-color: burlywood;
+}
+
+.header-button {
+    padding: 10px 15px;
+
+    background-color: rgb(73, 255, 164);
+}
+
+.header-button:hover {
+    cursor: pointer;
+
+    background-color: rgb(42, 224, 133);
+}
+
+.header-button:active {
+    color: lightgray;
+
+    background-color: rgb(22, 165, 93);
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .main-body {
     display: flex;
     justify-content: center;
+
+    background-color: aquamarine;
 }
 
 .body-space {
@@ -27,12 +101,72 @@ header {
 .body-center {
     display: flex;
     flex-direction: column;
+
+    background-color: rgb(146, 127, 255);
+    
+    width: 70%;
 }
 
 .body-section {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    padding-bottom: 20px;
+
+    /* Solo para ver los límites de las secciones */
+    /* Borrar al final y no se utilizan */
+    border-color: red;
+    border-style: solid;
+}
+
+.section-content {
+    display: flex;
+    /* Solo para ver los límites de las secciones */
+    /* Borrar al final y no se utilizan */
+    border-color: red;
+    border-style: solid;
+}
+
+.section-content-item {
+    margin: 0px 40px;
+}
+
+.section-content-item img {
+    width: 100px;
+    height: 150px;
+    background-color: white;
+}
+
+.section-content-item h1 {
+    font-size: 20px;
+}
+
+.body-section .center-button {
+    padding-top: 20px;
+}
+
+.body-section .center-button button {
+    padding: 5px 15px;
+    font-size: 15px;
+
+    border-style: solid;
+    border-color: rgb(34, 199, 117);
+
+    background-color: rgb(73, 255, 164);
+}
+
+.body-section .center-button button:hover {
+    cursor: pointer;
+
+    border-color: rgb(73, 255, 164);
+    background-color: rgb(42, 224, 133);
+}
+
+.body-section .center-button button:active {
+    color: lightgray;
+
+    background-color: rgb(22, 165, 93);
 }
 
 .center-button {
@@ -40,17 +174,66 @@ header {
 }
 
 footer {
-    display: flex;
-    flex-direction: column;
     background-color: gray;
-    align-items: center;
 }
 
 .footer-flex {
     display: flex;
+    justify-content: space-evenly;
+    margin: 20px 0px;
+}
+
+.footer-socials {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    /* Solo para ver los límites de las secciones */
+    /* Borrar al final y no se utilizan */
+    border-color: red;
+    border-style: solid;
+}
+
+.footer-socials nav {
+    display: flex;
+    justify-content: space-evenly;
+    /* Solo para ver los límites de las secciones */
+    /* Borrar al final y no se utilizan */
+    border-color: red;
+    border-style: solid;
 }
 
 .footer-section {
     display: flex;
     flex-direction: column;
+    /* Solo para ver los límites de las secciones */
+    /* Borrar al final y no se utilizan */
+    border-color: red;
+    border-style: solid;
+}
+
+.footer-section h1 {
+    margin: 5px 0px 10px;
+    font-size: 25px;
+}
+
+.footer-section a {
+    margin: 5px 0px;
+}
+
+.footer-section a:hover {
+    margin: 5px 0px;
+    cursor: pointer;
+}
+
+.copyright {
+    text-align: center;
+    margin-bottom: 12px;
+    /* Solo para ver los límites de las secciones */
+    /* Borrar al final y no se utilizan */
+    border-color: red;
+    border-style: solid;
+}
+
+.copyright br {
+    display: none;
 }
