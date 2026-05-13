@@ -2,12 +2,20 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+:root {
+    --primary-color: #9dffb2;
+    --primary-color-dark: #7bddbd;
+    --primary-color-light: #c6ffec;
+    --secondary-color: #c6f8ff;
+    --secondary-color-light: #e8fbff;
+}
+
 /* ----------------- HEADER ----------------- */
 header {
     display: flex;
     flex-direction: column;
 
-    background-color: cadetblue;
+    background-color: var(--primary-color-dark);
 }
 
 .header-main {
@@ -18,7 +26,7 @@ header {
 }
 
 #header-logo {
-    background-color: aqua;
+    background-color: var(--primary-color-light);
     border-radius: 50px;
     width: 150px;
     height: 50px;
@@ -48,24 +56,24 @@ header {
     cursor: pointer;
 
     border-radius: 0 10px 10px 0;
-    background-color: rgb(152, 255, 203);
+    background-color: var(--primary-color-light);
 }
 
 #header-searcher form button:hover {
-    background-color: rgb(91, 214, 153);
+    background-color: var(--secondary-color-light);
 }
 
 #header-searcher form button:active {
-    background-color: rgb(35, 180, 108);
+    background-color: var(--secondary-color);
 }
 
-#header-login {
+#header-login, #user-cart, #admin-options {
     margin-right: 2%;
 }
 
-#header-login a {
+#header-login a, #user-cart a, #admin-options a {
     color: black;
-    background-color: rgb(116, 213, 240);
+    background-color: var(--primary-color-light);
 
     border-style: none;
     border-radius: 30px;
@@ -77,37 +85,37 @@ header {
     text-decoration: none;
 }
 
-#header-login a:hover {
+#header-login a:hover, #user-cart a:hover, #admin-options a:hover {
     cursor: pointer;
-    background-color: rgb(151, 229, 251);
+    background-color: var(--secondary-color-light);
 }
 
-#header-login a:active {
-    background-color: rgb(81, 183, 212);
+#header-login a:active, #user-cart a:active, #admin-options a:active {
+    background-color: var(--secondary-color);
 }
 
 .header-buttons-container {
     display: flex;
     justify-content: center;
 
-    background-color: burlywood;
+    background-color: var(--primary-color);
 }
 
 .header-button {
     padding: 10px 20px;
     user-select: none;
 
-    background-color: rgb(73, 255, 164);
+    background-color: var(--primary-color);
 }
 
 .header-button:hover {
     cursor: pointer;
 
-    background-color: rgb(154, 255, 205);
+    background-color: var(--primary-color-light);
 }
 
 .header-button:active {
-    background-color: rgb(38, 230, 134);
+    background-color: var(--primary-color-dark);
 }
 
 /* ----------------- /HEADER ----------------- */
@@ -122,11 +130,11 @@ body {
     min-height: 100vh;
 }
 
-.main-body {
+main {
     display: flex;
     justify-content: center;
 
-    background-color: aquamarine;
+    background-color: var(--secondary-color-light);
     flex: 1;
 }
 
@@ -141,8 +149,6 @@ body {
 .body-center {
     display: flex;
     flex-direction: column;
-
-    background-color: rgb(146, 127, 255);
     
     width: 70%;
 }
@@ -153,19 +159,10 @@ body {
     align-items: center;
 
     padding-bottom: 20px;
-
-    /* Solo para ver los límites de las secciones */
-    /* Borrar al final y no se utilizan */
-    border-color: red;
-    border-style: solid;
 }
 
 .section-content {
     display: flex;
-    /* Solo para ver los límites de las secciones */
-    /* Borrar al final y no se utilizan */
-    border-color: red;
-    border-style: solid;
 }
 
 .section-content-item {
@@ -191,70 +188,96 @@ body {
     font-size: 15px;
 
     border-style: solid;
-    border-color: rgb(34, 199, 117);
+    border-color: var(--primary-color-dark);
     border-radius: 30px;
 
-    background-color: rgb(73, 255, 164);
+    background-color: var(--primary-color);
 }
 
 .center-button button:hover {
     cursor: pointer;
 
-    border-color: rgb(73, 255, 164);
-    background-color: rgb(154, 255, 205);
+    border-color: var(--primary-color);
+    background-color: var(--primary-color-light);
 }
 
 .center-button button:active {
-    background-color: rgb(38, 230, 134);
+    background-color: var(--primary-color-dark);
 }
 
 .center-button {
     text-align: center;
 }
 
+.section-separator {
+    height: 3px;
+    background-color: var(--secondary-color);
+    border-radius: 5px;
+}
+
 /* ----------------- /INDEX ----------------- */
 
 /* ----------------- LOGIN ----------------- */
 
-.login-form {
+#login-form {
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    background-color: rgb(231, 227, 255);
+    background-color: var(--secondary-color);
 
+    border-radius: 20px;
     margin: 20px;
     padding: 30px 20%;
 }
 
-.login-form form div {
+#login-form form div {
     display: flex;
     flex-direction: column;
     margin: 20px;
 }
 
-.login-form form div label {
+#login-form form div label {
     margin-bottom: 3px;
 }
 
-.login-form form div input[type=text] {
+#login-form form div input[type=text] {
     font-size: 15px;
 }
 
-.login-form .center-button {
+#login-form .center-button {
     margin: 25px 0px 20px;
 }
 
-.login-form div {
+#login-form div {
     margin-bottom: 10px;
 }
 
-.login-form div a {
+#login-form div a {
     color: rgb(43, 159, 255);
-
-    border-style: none;
-
     text-decoration: none;
+}
+
+#login-button, #register-button {
+    padding: 5px 15px;
+    font-size: 15px;
+
+    border-style: solid;
+    border-color: var(--primary-color-dark);
+    border-radius: 30px;
+
+    background-color: var(--primary-color);
+}
+
+#login-button:hover, #register-button:hover {
+    cursor: pointer;
+
+    border-color: var(--primary-color);
+    background-color: var(--primary-color-light);
+}
+
+#login-button:active, #register-button:active {
+    background-color: var(--primary-color-dark);
 }
 
 /* ----------------- /LOGIN ----------------- */
@@ -262,7 +285,7 @@ body {
 /* ----------------- FOOTER ----------------- */
 
 footer {
-    background-color: gray;
+    background-color: var(--primary-color-dark);
 }
 
 .footer-flex {
@@ -275,14 +298,10 @@ footer {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    /* Solo para ver los límites de las secciones */
-    /* Borrar al final y no se utilizan */
-    border-color: red;
-    border-style: solid;
 }
 
 #footer-logo {
-    background-color: aqua;
+    background-color: var(--primary-color-light);
     border-radius: 50px;
     width: 150px;
     height: 50px;
@@ -291,19 +310,11 @@ footer {
 .footer-socials nav {
     display: flex;
     justify-content: space-evenly;
-    /* Solo para ver los límites de las secciones */
-    /* Borrar al final y no se utilizan */
-    border-color: red;
-    border-style: solid;
 }
 
 .footer-section {
     display: flex;
     flex-direction: column;
-    /* Solo para ver los límites de las secciones */
-    /* Borrar al final y no se utilizan */
-    border-color: red;
-    border-style: solid;
 }
 
 .footer-section h1 {
@@ -323,10 +334,6 @@ footer {
 .copyright {
     text-align: center;
     margin-bottom: 12px;
-    /* Solo para ver los límites de las secciones */
-    /* Borrar al final y no se utilizan */
-    border-color: red;
-    border-style: solid;
 }
 
 .copyright br {
