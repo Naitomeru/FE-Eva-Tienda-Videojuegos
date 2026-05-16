@@ -69,30 +69,70 @@ header {
     background-color: var(--secondary-color);
 }
 
-#header-login, #user-cart, #admin-options {
-    margin-right: 2%;
+#header-left-buttons {
+    display: flex;
+    align-items: center;
+    margin: 0px 30px;
 }
 
-#header-login a, #user-cart a, #admin-options a {
-    color: black;
+#cart-button {
+    margin-right: 10px;
+}
+
+#cart-button a {
+    display: flex;
+    align-items: center;
+
+    color: var(--text-color);
     background-color: var(--primary-color-light);
+    text-align: center;
 
     border-style: none;
     border-radius: 30px;
 
     padding: 10px 15px;
-    margin: 0px 10px;
+    margin: 5px 10px;
 
     user-select: none;
     text-decoration: none;
 }
 
-#header-login a:hover, #user-cart a:hover, #admin-options a:hover {
+#cart-button a i {
+    margin-right: 5px;
+}
+
+#header-login {
+    display: flex;
+    flex-direction: column;
+}
+
+#header-login, #user-cart, #admin-options {
+    margin-right: 2%;
+}
+
+#header-login a, #user-cart a, #admin-options a {
+    color: var(--text-color);
+    background-color: var(--primary-color-light);
+    text-align: center;
+    font-weight: bold;
+    text-wrap-mode: nowrap;
+
+    border-style: none;
+    border-radius: 30px;
+
+    padding: 5px 15px;
+    margin: 5px 0;
+
+    user-select: none;
+    text-decoration: none;
+}
+
+#header-login a:hover, #user-cart a:hover, #admin-options a:hover, #cart-button a:hover {
     cursor: pointer;
     background-color: var(--secondary-color-light);
 }
 
-#header-login a:active, #user-cart a:active, #admin-options a:active {
+#header-login a:active, #user-cart a:active, #admin-options a:active, #cart-button a:active {
     background-color: var(--secondary-color);
 }
 
@@ -657,7 +697,7 @@ footer {
 
 .footer-socials nav a:hover {
     transform: translateY(-5px) scale(1.1);
-    color: var(--secondary-color-light);
+    color: var(--primary-color-light);
 }
 
 #footer-logo {
@@ -693,7 +733,7 @@ footer {
     width: 100px;
     height: 3px;
     border-radius: 10px;
-    background-color: white;
+    background-color: var(--primary-color-light);
 }
 
 .footer-section a {
@@ -705,7 +745,7 @@ footer {
 
 .footer-section a:hover {
     transform: translateX(6px);
-    color: white;
+    color: var(--secondary-color-light);
 }
 
 .copyright {
