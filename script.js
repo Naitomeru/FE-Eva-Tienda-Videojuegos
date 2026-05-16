@@ -34,7 +34,7 @@ const db = {
             id: 5,
             nombre: "Playstation 5 Slim",
             categoria: "Playstation",
-            path_imagen: "images/playstation/consoles/ps5_slim.jpg",
+            path_imagen: "images/playstation/consoles/ps5_slim.jpeg",
             precio: 649990,
             oferta: 0.85
         },
@@ -49,7 +49,7 @@ const db = {
             id: 7,
             nombre: "Playstation 5 Slim Digital - Astrobot",
             categoria: "Playstation",
-            path_imagen: "images/playstation/consoles/ps5_slim_digital_astrobot.jpg",
+            path_imagen: "images/playstation/consoles/ps5_slim_digital_astrobot.jpeg",
             precio: 569990
         },
         {
@@ -173,7 +173,7 @@ const db = {
             path_imagen: "images/nintendo/games/switch_triangle_strategy.jpg",
             precio: 59990
         },
-        { //////////// ME FALTA AQUIIIIIIIIIIIIIIII
+        {
             id: 12,
             nombre: "Grand Theft Auto V",
             categoria: "Playstation",
@@ -208,7 +208,7 @@ const db = {
         },
         {
             id: 16,
-            nombre: "Demon Slayer (Kimetsy no yaiba): Hinokami Chronicles",
+            nombre: "Demon Slayer (Kimetsu no yaiba): Hinokami Chronicles",
             categoria: "Playstation",
             consola: "Playstation 5",
             path_imagen: "images/playstation/games/ps5_demon_slayer_hinokami_chronicles.jpg",
@@ -309,7 +309,7 @@ const db = {
         },
         {
             id: 28,
-            nombre: "Demon Slayer (Kimetsy no yaiba): Hinokami Chronicles",
+            nombre: "Demon Slayer (Kimetsu no yaiba): Hinokami Chronicles",
             categoria: "Xbox",
             consola: "Xbox Series X",
             path_imagen: "images/xbox/games/xbox_demon_slayer_hinokami_chronicles.jpg",
@@ -355,7 +355,7 @@ const db = {
             nombre: "Star Fox",
             categoria: "Nintendo",
             consola: "Nintendo Switch 2",
-            path_imagen: "images/nintento/games/switch2_star_fox.jpg",
+            path_imagen: "images/nintendo/games/switch2_star_fox.jpg",
             precio: 79990,
             preventa: true
         }
@@ -370,28 +370,140 @@ const db = {
  */
 function priceToString(price) {
     const price_number = price.toString();
-    let count = 0;
-    const price1 = price_number.substring(count, price_number.length % 3);
-    count += price_number.length % 3;
-    const price2 = price_number.substring(count);
-    return "$" + price1 + "." + price2 + " CLP";
+    const total_digits = price_number.length;
+    const modulo = total_digits % 3;
+
+    let price_text = "$";
+
+    if (modulo != 0) {
+        price_text = price_text.concat(price_number.substring(0, modulo));
+        price_text = price_text.concat(".");
+    }
+
+    const iterations = (total_digits - modulo) / 3
+    for (let i = 0; i < iterations; i++) {
+        price_text = price_text.concat(price_number.substring(modulo + i * 3, modulo + i * 3 + 3));
+        if (i < iterations - 1) {
+            price_text = price_text.concat(".");
+        }
+    }
+    price_text = price_text.concat(" CLP");
+
+    return price_text;
 }
 
 /**
- * Formatea el precio para mostrarlo en pesos chilenos.
+ * Trunca el valor a la unidad.
  *
- * @param {number} price El precio a formatear
- * @returns {string} El precio formateado
+ * @param {number} price El precio a truncar
+ * @returns {string} El precio truncado
  */
 function priceWithSale(price, sale) {
     const final_price = Math.floor(price * sale);
     return final_price - (final_price % 10);
 }
 
+/**
+ * Crea un item con la información de un juego y lo añade a un contenedor.
+ * 
+ * @param {*} game Objeto con información del juego
+ * @param {HTMLElement} container Contenedor donde se guardará el item 
+ * @param {HTMLElement} original_item Plantilla de item 
+ * @param {HTMLElement} original_item_label Plantilla de label del item (para ofertas o preventas) 
+ * @param {number} type Tipo de item: 0 = consola, 1 = videojuego 
+ */
+function createItem(game, container, original_item, original_item_label, type) {
+    const new_item = original_item.cloneNode(true);
+
+    // Imagen
+    new_item.children[0].children[0].src = game.path_imagen;
+
+    // Título
+    new_item.children[1].innerHTML = game.nombre;
+
+    // Precio
+    new_item.children[2].innerHTML = priceToString(game.precio);
+
+    // Oferta
+    if (game.oferta !== undefined) {
+        const item_label = original_item_label.cloneNode();
+        item_label.innerHTML = "OFERTA";
+        new_item.children[0].appendChild(item_label);
+
+        new_item.children[2].style.textDecoration = "line-through 2px";
+        new_item.children[3].innerHTML = priceToString(priceWithSale(game.precio, game.oferta));
+    } else if (game.preventa !== undefined) {
+        const item_label = original_item_label.cloneNode();
+        item_label.innerHTML = "PREVENTA";
+        new_item.children[0].appendChild(item_label);
+    }
+
+    // Link a detalles
+    new_item.href = "detalles.html?tipo=" + type + "&id=" + game.id;
+
+    container.appendChild(new_item);
+}
+
+// Header buttons
+document.addEventListener("DOMContentLoaded", function() {
+    // Se añaden listeners a los botones del header para redireccionamiento
+
+    const oferta_button = document.getElementById("ofertas-button");
+    oferta_button.addEventListener("click", function() {
+        location.replace("galeria.html?tipo=ofertas");
+    });
+
+    const preventas_button = document.getElementById("preventas-button");
+    preventas_button.addEventListener("click", function() {
+        location.replace("galeria.html?tipo=preventas");
+    });
+
+    // Para los botones de Nintendo, PlayStation y Xbox,
+    // además, se añaden listeners para los pop-ups
+    const nintendo_button = document.getElementById("nintendo-button");
+    nintendo_button.addEventListener("click", function() {
+        location.replace("galeria.html?tipo=marca&categoria=Nintendo");
+    });
+    nintendo_button.addEventListener("mouseenter", function() {
+        nintendo_button.children[0].style.display = "flex";
+    });
+    nintendo_button.addEventListener("mouseleave", function() {
+        nintendo_button.children[0].style.display = "none";
+    });
+
+    const playstation_button = document.getElementById("playstation-button");
+    playstation_button.addEventListener("click", function() {
+        location.replace("galeria.html?tipo=marca&categoria=Playstation");
+    });
+    playstation_button.addEventListener("mouseenter", function() {
+        playstation_button.children[0].style.display = "flex";
+    });
+    playstation_button.addEventListener("mouseleave", function() {
+        playstation_button.children[0].style.display = "none";
+    });
+
+    const xbox_button = document.getElementById("xbox-button");
+    xbox_button.addEventListener("click", function() {
+        location.replace("galeria.html?tipo=marca&categoria=Xbox");
+    });
+    xbox_button.addEventListener("mouseenter", function() {
+        xbox_button.children[0].style.display = "flex";
+    });
+    xbox_button.addEventListener("mouseleave", function() {
+        xbox_button.children[0].style.display = "none";
+    });
+});
+
 // index.html
 document.addEventListener("DOMContentLoaded", function() {
     // Si no tiene un elemento con id "index-main", salimos de la función
     if (document.getElementById("index-main") === null) return;
+
+    // Se añade un listener al botón del hero
+    const hero_button = document.getElementById("hero-button");
+    hero_button.addEventListener("click", function() {
+        location.replace("galeria.html?tipo=ofertas");
+    });
 
     const containers = document.getElementsByClassName("section-content");
 
@@ -422,48 +534,54 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    /**
-     * Crea un item con la información de un juego y lo añade a un contenedor.
-     * 
-     * @param {*} game Objeto con información del juego
-     * @param {HTMLElement} container Contenedor donde se guardará el item 
-     */
-    function createItem(game, container) {
-        const new_item = original_item.cloneNode(true);
-
-        // Imagen
-        new_item.children[0].children[0].src = game.path_imagen;
-
-        // Título
-        new_item.children[1].innerHTML = game.nombre;
-
-        // Precio
-        new_item.children[2].innerHTML = priceToString(game.precio);
-
-        // Oferta
-        if (game.oferta !== undefined) {
-            const item_label = original_item_label.cloneNode();
-            item_label.innerHTML = "OFERTA";
-            new_item.children[0].appendChild(item_label);
-
-            new_item.children[2].style.textDecoration = "line-through 2px";
-            new_item.children[3].innerHTML = priceToString(priceWithSale(game.precio, game.oferta));
-        }
-
-        // Link a detalles
-        new_item.href = "detalles.html?id=" + game.id;
-
-        container.appendChild(new_item);
-    }
-
     // Mostramos solo los primeros cuatro juegos de cada categoría
     for (let i = 0; i < 4; i++) {
         // Juego de Nintendo
-        createItem(nintendo_games[i], nintendo_games_container);
+        createItem(nintendo_games[i], nintendo_games_container, original_item, original_item_label, 1);
         // Juego de Playstation
-        createItem(playstation_games[i], playstation_games_container);
+        createItem(playstation_games[i], playstation_games_container, original_item, original_item_label, 1);
         // Juego de Xbox
-        createItem(xbox_games[i], xbox_games_container);
+        createItem(xbox_games[i], xbox_games_container, original_item, original_item_label, 1);
+    }
+
+    // Añadimos listeners a los botones de "Ver más"
+    const nintendo_view_more_button = document.getElementById("section1").lastElementChild.firstElementChild;
+    nintendo_view_more_button.addEventListener("click", function() {
+        location.replace("galeria.html?tipo=Videojuegos&categoria=Nintendo");
+    });
+    
+    const ps_view_more_button = document.getElementById("section2").lastElementChild.firstElementChild;
+    ps_view_more_button.addEventListener("click", function() {
+        location.replace("galeria.html?tipo=Videojuegos&categoria=PlayStation");
+    });
+    
+    const xbox_view_more_button = document.getElementById("section3").lastElementChild.firstElementChild;
+    xbox_view_more_button.addEventListener("click", function() {
+        location.replace("galeria.html?tipo=Videojuegos&categoria=Xbox");
+    });
+
+    // Añadimos listeners a los logos del carrusel
+    const brands = document.getElementsByClassName("brand-item");
+    for (let i = 0; i < brands.length; i++) {
+        // 0: Nintendo, 1: PlayStation, 2: Xbox
+        const category = i % 3;
+        let category_text = "";
+        switch (category) {
+            case 0:
+                category_text = "Nintendo";
+                break;
+                
+            case 1:
+                category_text = "PlayStation";
+                break;
+                
+            case 2:
+                category_text = "Xbox";
+                break;
+            }
+        brands[i].addEventListener("click", function() {
+            location.replace("galeria.html?tipo=marca&categoria=" + category_text)
+        });
     }
 });
 
@@ -474,12 +592,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Se consiguen el parámetro "id" del URL
     const urlParams = new URLSearchParams(location.search);
-    const game_id = urlParams.get("id");
+    const type = urlParams.get("tipo");
+    const id = urlParams.get("id");
 
     // Se busca el elemento en la colección de juegos
     let game = null;
-    for (const element_db of db.games) {
-        if (element_db.id == game_id) {
+    // Se selecciona la colección a buscar de acuerdo al parámetro 'tipo'
+    // 0: consolas, 1: videojuegos
+    const collection = type == 0 ? db.consoles : db.games;
+    for (const element_db of collection) {
+        if (element_db.id == id) {
             game = element_db;
             break;
         }
@@ -518,4 +640,98 @@ document.addEventListener("DOMContentLoaded", function() {
 
         quantity_text.innerHTML = quantity;
     });
+});
+
+// Galería
+document.addEventListener("DOMContentLoaded", function() {
+    const gallery_main = document.getElementById("gallery-main");
+    if (gallery_main === null) return;
+
+    // Se consiguen el parámetro "id" del URL
+    const urlParams = new URLSearchParams(location.search);
+    const type = urlParams.get("tipo");
+    const category = urlParams.get("categoria");
+
+    // Se consigue el título de la galería
+    const title = gallery_main.children[0];
+    const gallery = document.getElementById("gallery");
+
+    // Se consigue la plantilla de los items
+    const original_item = gallery.children[0];
+    original_item.remove();
+
+    // Conseguimos el label del item (para poner oferta o preventa)
+    const original_item_label = original_item.children[0].children[0];
+    original_item_label.remove();
+
+    // Se crean los items dependiendo del tipo de item y, opcionalmente, su categoría
+    if (type.toLowerCase() === "ofertas") {
+        title.innerHTML = "Ofertas";
+        for (const item of db.consoles) {
+            // Solo crear item con 'oferta' definido
+            if (item.oferta !== undefined) {
+                createItem(item, gallery, original_item, original_item_label, 0);
+            }
+        }
+        for (const item of db.games) {
+            // Solo crear item con 'oferta' definido
+            if (item.oferta !== undefined) {
+                createItem(item, gallery, original_item, original_item_label, 1);
+            }
+        }
+    } else if (type.toLowerCase() === "preventas") {
+        title.innerHTML = "Preventas";
+        for (const item of db.consoles) {
+            // Solo crear item con 'preventa' definido
+            if (item.preventa !== undefined) {
+                createItem(item, gallery, original_item, original_item_label, 0);
+            }
+        }
+        for (const item of db.games) {
+            // Solo crear item con 'preventa' definido
+            if (item.preventa !== undefined) {
+                createItem(item, gallery, original_item, original_item_label, 1);
+            }
+        }
+    } else if (type.toLowerCase() === "marca") {
+        title.innerHTML = category;
+        for (const item of db.consoles) {
+            if (item.categoria.toLowerCase() === category.toLowerCase()) {
+                createItem(item, gallery, original_item, original_item_label, 0);
+            }
+        }
+        for (const item of db.games) {
+            if (item.categoria.toLowerCase() === category.toLowerCase()) {
+                createItem(item, gallery, original_item, original_item_label, 1);
+            }
+        }
+    } else if (type.toLowerCase() === "consolas") {
+        if (category === null) {
+            title.innerHTML = "Consolas";
+            for (const item of db.consoles) {
+                createItem(item, gallery, original_item, original_item_label, 0);
+            }
+        } else {
+            title.innerHTML = "Consolas de " + category;
+            for (const item of db.consoles) {
+                if (item.categoria.toLowerCase() === category.toLowerCase()) {
+                    createItem(item, gallery, original_item, original_item_label, 0);
+                }
+            }
+        }
+    } else if (type.toLowerCase() === "videojuegos") {
+        if (category === null) {
+            title.innerHTML = "Videojuegos";
+            for (const item of db.games) {
+                createItem(item, gallery, original_item, original_item_label, 1);
+            }
+        } else {
+            title.innerHTML = "Videojuegos de " + category;
+            for (const item of db.games) {
+                if (item.categoria.toLowerCase() === category.toLowerCase()) {
+                    createItem(item, gallery, original_item, original_item_label, 1);
+                }
+            }
+        }
+    }
 });
