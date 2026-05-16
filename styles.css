@@ -72,7 +72,7 @@ header {
 #header-left-buttons {
     display: flex;
     align-items: center;
-    margin: 0px 30px;
+    margin: 0px 30px 0px 0px;
 }
 
 #cart-button {
@@ -656,6 +656,145 @@ main {
         transform: translateX(-50%);
     }
 }
+
+/* ----------------- CARRITO ----------------- */
+
+#cart-main {
+    display: flex;
+    flex-direction: column;
+
+    padding: 50px 50px;
+}
+
+#cart-main h1, #cart-main h2, #cart-main h3 {
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+#cart-main #content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+#cart-main #content .price-text {
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+#cart-main #content .element-title {
+    font-weight: bold;
+}
+
+#cart, #summary {
+    background-color: var(--primary-color-light);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+#cart {
+    display: grid;
+    grid-template-columns: 5fr auto auto auto;
+    width: 100%;
+}
+
+/* #cart > :nth-child(n) {
+    border: solid red;
+} */
+
+#cart h3:nth-child(2) {
+    margin: 0 20px;
+}
+
+#cart h3:nth-child(3) {
+    grid-column: 3 / span 2;
+}
+
+#cart .product {
+    display: flex;
+}
+
+#cart .product img {
+    height: 100px;
+}
+
+#cart .product .item-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#cart .quantity-buttons {
+    margin: 0 30px;
+}
+
+#cart > .price-text {
+    align-self: center;
+    font-size: large;
+    padding-right: 20px;
+}
+
+#cart i {
+    place-self: center;
+    margin: 0 20px;
+}
+
+#summary {
+    height: 130px;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#summary #price-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+#summary #price-total div {
+    vertical-align: middle;
+}
+
+#summary button {
+    padding: 10px 20px;
+    width: 100%;
+}
+
+.quantity-buttons {
+    display: flex;
+    align-items: center;
+}
+
+/* Para los botones - + y Agregar al carrito */
+.quantity-buttons button, #summary button {
+    background-color: var(--primary-color);
+    border-radius: 10px;
+}
+
+.quantity-buttons button:hover, #summary button:hover {
+    background-color: var(--primary-color-light);
+}
+
+.quantity-buttons button:active, #summary button:active {
+    background-color: var(--primary-color-dark);
+}
+
+/* Solo para los botones - y + */
+.quantity-buttons button {
+    width: 40px;
+    height: 40px;
+    font-size:x-large   ;
+}
+
+.quantity-buttons p {
+    width: 40px;
+    text-align: center;
+}
+
+/* ----------------- /CARRITO ----------------- */
 
 /* ----------------- FOOTER ----------------- */
 footer::before {
