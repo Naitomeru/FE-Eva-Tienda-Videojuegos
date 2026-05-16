@@ -1,4 +1,7 @@
 "use strict";
+// Global variables
+const cartStorageName = "videogames-cart";
+
 const db = {
     consoles: [
         {
@@ -453,7 +456,7 @@ function createItem(game, container, original_item, original_item_label, type) {
 function addToCart(product, cart_quantity_text) {
     // Se obtiene el carrito desde la memoria
     // Si no existe, se pasa un arreglo vacío
-    const cart = JSON.parse( localStorage.getItem("cart") ) || [];
+    const cart = JSON.parse( localStorage.getItem(cartStorageName) ) || [];
 
     let exists = false;
     for (const item_in_cart of cart) {
@@ -475,7 +478,7 @@ function addToCart(product, cart_quantity_text) {
     }
 
     // Actualiza el carrito en la memoria
-    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem(cartStorageName, JSON.stringify(cart));
 }
 
 /**
@@ -483,7 +486,7 @@ function addToCart(product, cart_quantity_text) {
  */
 function setCartQuantity(cart_quantity_text) {
     // Se consigue el texto y se asigna el total de elementos del carrito
-    const cart = JSON.parse( localStorage.getItem("cart") ) || [];
+    const cart = JSON.parse( localStorage.getItem(cartStorageName) ) || [];
     cart_quantity_text.innerHTML = "(" + cart.length + ")";
 }
 
@@ -814,7 +817,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const cart_container = cart_details.firstElementChild;
 
     // Conseguimos el carrito desde la memoria
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cart = JSON.parse(localStorage.getItem(cartStorageName)) || [];
 
     if (cart.length == 0) {
         cart_details.remove();
@@ -869,7 +872,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 quantity_text.innerHTML = quantity;
                 item_in_cart.cantidad = quantity;
-                localStorage.setItem("cart", JSON.stringify(cart));
+                localStorage.setItem(cartStorageName, JSON.stringify(cart));
 
                 new_price_text.innerHTML = priceToString(quantity * item_in_cart.precio);
 
@@ -888,7 +891,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 quantity_text.innerHTML = quantity;
                 item_in_cart.cantidad = quantity;
-                localStorage.setItem("cart", JSON.stringify(cart));
+                localStorage.setItem(cartStorageName, JSON.stringify(cart));
 
                 new_price_text.innerHTML = priceToString(quantity * item_in_cart.precio);
 
@@ -914,7 +917,7 @@ document.addEventListener("DOMContentLoaded", function() {
             btn.addEventListener("click", function(event) {
                 // Se elimina el elemento del carrito y se guarda en memoria
                 const element_removed = cart.splice(index, 1);
-                localStorage.setItem("cart", JSON.stringify(cart));
+                localStorage.setItem(cartStorageName, JSON.stringify(cart));
 
                 // Se recarga la página
                 location.reload();
@@ -927,14 +930,14 @@ document.addEventListener("DOMContentLoaded", function() {
         // Se asigna listener al boton de comprar todo
         const purchase_all_button = document.getElementById("purchase-all-button");
         purchase_all_button.addEventListener("click", function() {
-            localStorage.removeItem("cart");
+            localStorage.removeItem(cartStorageName);
             location.reload();
         });
 
         // Se asigna listener al boton de quitar todo
         const remove_all_button = document.getElementById("remove-all-button");
         remove_all_button.addEventListener("click", function() {
-            localStorage.removeItem("cart");
+            localStorage.removeItem(cartStorageName);
             location.reload();
         });
     }
@@ -943,11 +946,11 @@ document.addEventListener("DOMContentLoaded", function() {
 // Solo para debug
 document.addEventListener("keydown", function(event) {
     if (event.key === "d") { // Elimina carrito
-        localStorage.removeItem("cart");
+        localStorage.removeItem(cartStorageName);
     } else if (event.key === "c") { // Crea un carrito vacío
-        localStorage.setItem("cart", JSON.stringify([]));
+        localStorage.setItem(cartStorageName, JSON.stringify([]));
     } else if (event.key === "l") { // Muestra carrito en consola
-        const cart = JSON.parse(localStorage.getItem("cart"));
+        const cart = JSON.parse(localStorage.getItem(cartStorageName));
         console.log("Carrito");
         console.log(cart);
     }
