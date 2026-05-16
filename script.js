@@ -444,8 +444,59 @@ function createItem(game, container, original_item, original_item_label, type) {
     container.appendChild(new_item);
 }
 
+/**
+ * Función para añadir un producto al carrito de compras.
+ * 
+ * @param {Object} product 
+ * @param {HTMLElement} cart_quantity_text 
+ */
+function addToCart(product, cart_quantity_text) {
+    // Se obtiene el carrito desde la memoria
+    // Si no existe, se pasa un arreglo vacío
+    const cart = JSON.parse( localStorage.getItem("cart") ) || [];
+
+    let exists = false;
+    for (const item_in_cart of cart) {
+        // Si ya está en carrito, aumentar cantidad
+        if (item_in_cart.id === product.id && item_in_cart.tipo == product.tipo) {
+            item_in_cart.cantidad += product.cantidad;
+            exists = true;
+            break;
+        }
+    }
+    
+    // Si no existe el producto, añadirlo al carrito
+    if (!exists) {
+        cart.push(product)
+        console.log(cart);
+
+        // Actualiza la cantidad de elementos del carrito
+        cart_quantity_text.innerHTML = "(" + cart.length + ")";
+    }
+
+    // Actualiza el carrito en la memoria
+    localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+/**
+ * Asigna la cantidad total de elementos del carrito al ícono superior derecho.
+ */
+function setCartQuantity(cart_quantity_text) {
+    // Se consigue el texto y se asigna el total de elementos del carrito
+    const cart = JSON.parse( localStorage.getItem("cart") ) || [];
+    cart_quantity_text.innerHTML = "(" + cart.length + ")";
+}
+
 // Header buttons
 document.addEventListener("DOMContentLoaded", function() {
+
+    // Se consigue el texto de la cantidad de elementos del carrito
+    const cart = document.getElementById("cart-button");
+    if (cart !== null) {
+        const cart_quantity_text = cart.firstElementChild.lastElementChild;
+        setCartQuantity(cart_quantity_text);
+    }
+
     // Se añaden listeners a los botones del header para redireccionamiento
 
     const oferta_button = document.getElementById("ofertas-button");
@@ -595,36 +646,39 @@ document.addEventListener("DOMContentLoaded", function() {
     const type = urlParams.get("tipo");
     const id = urlParams.get("id");
 
+    const cart_quantity_text = document.getElementById("cart-button").firstElementChild.lastElementChild;
+
     // Se busca el elemento en la colección de juegos
-    let game = null;
+    let item = null;
     // Se selecciona la colección a buscar de acuerdo al parámetro 'tipo'
     // 0: consolas, 1: videojuegos
     const collection = type == 0 ? db.consoles : db.games;
     for (const element_db of collection) {
         if (element_db.id == id) {
-            game = element_db;
+            item = element_db;
             break;
         }
     }
-    if (game === null) return;
+    if (item === null) return;
 
     // Imagen
     const image = container.children[0].children[0];
-    image.src = game.path_imagen;
+    image.src = item.path_imagen;
 
     // Título del videojuego
     const title = document.getElementById("title");
-    title.innerHTML = game.nombre;
+    title.innerHTML = item.nombre;
 
     // Precio
     const price = document.getElementById("price");
-    price.innerHTML = priceToString(game.precio);
+    price.innerHTML = priceToString(item.precio);
 
     // Botones que modifican la cantidad a comprar
     const buttons = document.getElementById("buttons").children[0].children;
     // El texto donde se muestra la cantidad a comprar
     const quantity_text = buttons[1];
 
+    // Botón -
     buttons[0].addEventListener("click", function() {
         let quantity = parseInt(quantity_text.innerHTML);
         quantity--;
@@ -633,12 +687,26 @@ document.addEventListener("DOMContentLoaded", function() {
         quantity_text.innerHTML = quantity;
     });
 
+    // Botón +
     buttons[2].addEventListener("click", function() {
         let quantity = parseInt(quantity_text.innerHTML);
         quantity++;
         if (quantity > 100) quantity = 100;
 
         quantity_text.innerHTML = quantity;
+    });
+
+    // Se añade listener al botón "Agregar al carrito"
+    document.getElementById("add-to-cart-button").addEventListener("click", function() {
+        const item_to_push = {
+            "id": item.id,
+            "nombre": item.nombre,
+            "tipo": type == 0 ? "consola" : "videojuego",
+            "precio": item.precio,
+            "path_imagen": item.path_imagen,
+            "cantidad": parseInt(quantity_text.innerHTML)
+        }
+        addToCart(item_to_push, cart_quantity_text);
     });
 });
 
@@ -733,5 +801,154 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
         }
+    }
+});
+
+// Carrito carrito.html
+document.addEventListener("DOMContentLoaded", function() {
+    // Si no está 'cart-main' entonces salimos de la función
+    if (document.getElementById("cart-main") === null) return;
+
+    const main_container = document.getElementById("content");
+    const cart_details = main_container.firstElementChild;
+    const cart_container = cart_details.firstElementChild;
+
+    // Conseguimos el carrito desde la memoria
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (cart.length == 0) {
+        cart_details.remove();
+
+        main_container.innerHTML = "Tu carrito está vacío."
+    } else {
+        // Conseguimos las plantillas componentes del item
+        const product = cart_container.children[3];
+        const quantity_buttons = cart_container.children[4];
+        const price_text = cart_container.children[5];
+        const remove_item_button = cart_container.children[6];
+        product.remove();
+        quantity_buttons.remove();
+        price_text.remove();
+        remove_item_button.remove();
+
+        // Se consigue el texto del precio total
+        const price_total_text = document.getElementById("price-total").lastElementChild;
+
+        // Precio total para el resumen
+        let total_price = 0;
+
+        // Por cada elemento del carrito, se crea una tarjeta
+        for (const item_in_cart of cart) {
+            const new_product = product.cloneNode(true);
+
+            // Imagen
+            new_product.firstElementChild.firstElementChild.src = item_in_cart.path_imagen;
+
+            // Título
+            new_product.lastElementChild.firstElementChild.innerHTML = item_in_cart.nombre;
+
+            // Precio
+            new_product.lastElementChild.lastElementChild.innerHTML = priceToString(item_in_cart.precio);
+
+            // Asignamos el subtotal del item
+            const new_price_text = price_text.cloneNode(true);
+
+            const subtotal = item_in_cart.precio * item_in_cart.cantidad;
+            new_price_text.innerHTML = priceToString(subtotal);
+            total_price += subtotal;
+
+            // Se asignan listeners a los botones de cantidad
+            const new_quantity_buttons = quantity_buttons.cloneNode(true);
+            const quantity_text = new_quantity_buttons.children[1];
+            quantity_text.innerHTML = item_in_cart.cantidad;
+            // Botón -
+            new_quantity_buttons.firstElementChild.addEventListener("click", function() {
+                let quantity = parseInt(quantity_text.innerHTML);
+                quantity--;
+                if (quantity < 1) quantity = 1;
+
+                quantity_text.innerHTML = quantity;
+                item_in_cart.cantidad = quantity;
+                localStorage.setItem("cart", JSON.stringify(cart));
+
+                new_price_text.innerHTML = priceToString(quantity * item_in_cart.precio);
+
+                let new_total_price = 0;
+                for (const item_in_cart of cart) {
+                    new_total_price += item_in_cart.cantidad * item_in_cart.precio;
+                }
+                price_total_text.innerHTML = priceToString(new_total_price);
+            });
+
+            // Botón +
+            new_quantity_buttons.lastElementChild.addEventListener("click", function() {
+                let quantity = parseInt(quantity_text.innerHTML);
+                quantity++;
+                if (quantity > 100) quantity = 100;
+
+                quantity_text.innerHTML = quantity;
+                item_in_cart.cantidad = quantity;
+                localStorage.setItem("cart", JSON.stringify(cart));
+
+                new_price_text.innerHTML = priceToString(quantity * item_in_cart.precio);
+
+                let new_total_price = 0;
+                for (const item_in_cart of cart) {
+                    new_total_price += item_in_cart.cantidad * item_in_cart.precio;
+                }
+                price_total_text.innerHTML = priceToString(new_total_price);
+            });
+
+            const new_remove_item_button = remove_item_button.cloneNode(true);
+
+            cart_container.append(new_product);
+            cart_container.append(new_quantity_buttons);
+            cart_container.append(new_price_text);
+            cart_container.append(new_remove_item_button);
+        }
+
+        // Se asigna los listeners para cada botón de quitar item
+        const remove_iten_buttons = Array.from(document.getElementsByClassName("fa-solid fa-trash"));
+        remove_iten_buttons.forEach((btn, index) => {
+            // Se añade un listener al botón
+            btn.addEventListener("click", function(event) {
+                // Se elimina el elemento del carrito y se guarda en memoria
+                const element_removed = cart.splice(index, 1);
+                localStorage.setItem("cart", JSON.stringify(cart));
+
+                // Se recarga la página
+                location.reload();
+            });
+        });
+
+        // Se muestra el precio total del carrito
+        price_total_text.innerHTML = priceToString(total_price);
+
+        // Se asigna listener al boton de comprar todo
+        const purchase_all_button = document.getElementById("purchase-all-button");
+        purchase_all_button.addEventListener("click", function() {
+            localStorage.removeItem("cart");
+            location.reload();
+        });
+
+        // Se asigna listener al boton de quitar todo
+        const remove_all_button = document.getElementById("remove-all-button");
+        remove_all_button.addEventListener("click", function() {
+            localStorage.removeItem("cart");
+            location.reload();
+        });
+    }
+});
+
+// Solo para debug
+document.addEventListener("keydown", function(event) {
+    if (event.key === "d") { // Elimina carrito
+        localStorage.removeItem("cart");
+    } else if (event.key === "c") { // Crea un carrito vacío
+        localStorage.setItem("cart", JSON.stringify([]));
+    } else if (event.key === "l") { // Muestra carrito en consola
+        const cart = JSON.parse(localStorage.getItem("cart"));
+        console.log("Carrito");
+        console.log(cart);
     }
 });

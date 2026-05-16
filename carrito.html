@@ -28,7 +28,7 @@
                 <div id="cart-button">
                     <a href="carrito.html">
                         <i class="fa-solid fa-cart-shopping"></i>
-                        (0)
+                        <span>(0)</span>
                     </a>
                 </div>
                 <div id="header-login">
@@ -76,49 +76,52 @@
     <main id="cart-main">
         <h1>Carrito</h1>
         <div id="content">
-            <div id="cart"> <!-- Matriz de 3 columnas -->
-                <h3>Producto</h3>
-                <h3>Cantidad</h3>
-                <h3>Subtotal</h3>
-                
-                <!-- ITEM -->
-                <div class="product">
-                    <div class="image">
-                        <img>
+            <div id="cart-details">
+                <div id="cart"> <!-- Matriz de 3 columnas -->
+                    <h3>Producto</h3>
+                    <h3>Cantidad</h3>
+                    <h3>Subtotal</h3>
+                    
+                    <!-- ITEM -->
+                    <div class="product">
+                        <div class="image">
+                            <img>
+                        </div>
+                        <div class="item-details">
+                            <div class="element-title">
+                                TITULO
+                            </div>
+                            <div class="price-text">
+                                PRECIO
+                            </div>
+                        </div>
                     </div>
-                    <div class="item-details">
+                    <div class="quantity-buttons">
+                        <button>-</button>
+                        <p>1</p>
+                        <button>+</button>
+                    </div>
+                    <div class="price-text">
+                        PRECIO
+                    </div>
+                    <i class="fa-solid fa-trash"></i>
+                    <!-- FIN ITEM -->
+                </div>
+                <div id="summary">
+                    <h2>Resumen</h3>
+
+                    <div id="price-total">
                         <div class="element-title">
-                            TITULO
+                            Total compra
                         </div>
                         <div class="price-text">
                             PRECIO
                         </div>
                     </div>
-                </div>
-                <div class="quantity-buttons">
-                    <button>-</button>
-                    <p>1</p>
-                    <button>+</button>
-                </div>
-                <div class="price-text">
-                    PRECIO
-                </div>
-                <i class="fa-solid fa-trash"></i>
-                <!-- FIN ITEM -->
-            </div>
-            <div id="summary">
-                <h2>Resumen</h3>
 
-                <div id="price-total">
-                    <div class="element-title">
-                        Total compra
-                    </div>
-                    <div class="price-text">
-                        PRECIO
-                    </div>
+                    <button id="purchase-all-button">Comprar todo</button>
+                    <button id="remove-all-button">Quitar todo</button>
                 </div>
-
-                <button>Comprar</button>
             </div>
         </div>
     </main>
