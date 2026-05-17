@@ -31,7 +31,7 @@ header {
     display: none;
 }
 
-#header-logo {
+#header-logo, #footer-logo {
     background-color: var(--primary-color-light);
     border-radius: 50px;
 
@@ -41,7 +41,7 @@ header {
     justify-content: center;
 }
 
-#header-logo img {
+#header-logo img, #footer-logo img {
     max-width: 105px;
     max-height: 50px;
     width: auto;
