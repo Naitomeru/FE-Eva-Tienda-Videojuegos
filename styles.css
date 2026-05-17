@@ -27,30 +27,47 @@ header {
     margin: 10px 0px;
 }
 
+.header-main > i {
+    display: none;
+}
+
 #header-logo {
     background-color: var(--primary-color-light);
     border-radius: 50px;
-    width: 150px;
-    height: 50px;
-    margin-left: 5%;
+
+    margin: 10px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#header-logo img {
+    max-width: 105px;
+    max-height: 50px;
+    width: auto;
+    height: auto;
+
+    padding: 0 10px;
+
+    border-radius: 50px;
 }
 
 #header-searcher {
     display: flex;
 
-    margin: 0px 5%;
+    justify-content: center;
+    margin: 10px;
 }
 
-#header-searcher form input[type=text] {
+#header-searcher input[type=text] {
     padding: 10px;
-    margin: 0%;
     border: 0px;
     font-size: 17px;
 
     border-radius: 10px 0 0 10px;
 }
 
-#header-searcher form button {
+#header-searcher button {
     float: right;
     border: 0px;
     padding: 10px 12px;
@@ -61,11 +78,11 @@ header {
     background-color: var(--primary-color-light);
 }
 
-#header-searcher form button:hover {
+#header-searcher button:hover {
     background-color: var(--secondary-color-light);
 }
 
-#header-searcher form button:active {
+#header-searcher button:active {
     background-color: var(--secondary-color);
 }
 
@@ -192,7 +209,7 @@ header {
 #hero {
     position: relative;
     width: 100%;
-    height: 400px;
+    /* height: 400px; */
     overflow: hidden;
     border-radius: 25px;
     margin-bottom: 50px;
@@ -512,12 +529,11 @@ main {
 #buttons div button {
     width: 40px;
     height: 40px;
-    font-size:x-large   ;
+    font-size: x-large;
 }
 
 #add-to-cart-button {
-    height: 40px; 
-    flex-basis: 2;
+    height: 40px;
     margin-left: 40px;
     padding: 0 20px;
 }
@@ -917,34 +933,156 @@ footer {
     display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
+    
+
     .header-main {
-        flex-direction: column;
-        gap: 15px;
-        padding: 15px 0;
-    }
-    #header-searcher {
-        width: 90%;
-    }
-    #header-searcher form {
-        display: flex;
-        width: 100%;
-    }
-    #header-searcher form input[type=text] {
-        flex: 1;
-    }
-    #header-login {
-        display: flex;
-        gap: 10px;
-        margin: 0;
+        height: 100px;
     }
 
-    .hero {
-        height: 300px;
+    #header-logo {
+        width: 200px;
+        height: 70px;
+    }
+
+    #header-searcher input[type=text] {
+        width: 50%;
+        font-size: x-large;
+    }
+
+    #header-searcher button {
+        font-size: x-large;
+    }
+
+    #cart-button {
+        height: 100%;
+    }
+
+    #cart-button a {
+        padding: 20px;
+        margin-right: 0;
+        margin: 0;
+        font-size: x-large;
+    }
+
+    .header-main > i {
+        display: inline;
+        margin: 0 30px;
+        font-size: 50px;
+    }
+    
+    #header-login {
+        display: none;
+    }
+
+    #cart-button span {
+        display: none;
+    }
+
+    .header-buttons-container {
+        display: none;
+    }
+
+    .hero-overlay h1 {
+        width: 80%;
+    }
+
+    .hero-overlay p {
+        width: 60%;
+    }
+
+    .hero-overlay button {
+        font-size: x-large;
+    }
+
+    .body-space {
+        display: none;
+    }
+
+    .body-section h1 {
+        font-size: 60px;
+    }
+
+    .section-content-item h2 {
+        font-size: 25px;
+
+        height: 70px;
+    }
+
+    .section-content-item p {
+        font-size: 25px;
+    }
+
+    .section-content-item:nth-child(3), .section-content-item:nth-child(4) {
+        display: none;
+    }
+
+    .center-button button {
+        font-size: 30px;
+        padding: 15px 55px;
+    }
+
+    .section-separator {
+        margin: 20px 0;
+    }
+
+    /* Detalles */
+    #details-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    /* .details-image {
+        width: 200px;
+        height: 200px;
+        padding: 0 50px;
+        text-align: center;
+    }
+
+    .details-image img {
+        height: 100%;
+    } */
+
+    #gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 550px) {
+    .header-main {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 15px;
+        padding: 15px 0;
+        height: 250px;
+        margin: 20px;
+    }
+
+    #header-searcher {
+        grid-column: 1 / span 2;
+    }
+    .header-main i {
+        place-self: center;
+    }
+
+    #header-logo {
+        grid-column: 1 / span 3;
+        place-self: center;
+    }
+    #header-left-buttons {
+        display: none;
+    }
+    #header-searcher input[type=text] {
+        flex: 1;
+    }
+
+    #hero {
+        height: 350px;
+    text-align: center;
     }
 
     .hero-overlay {
         padding: 30px;
+        align-items: center;
     }
 
     .hero-overlay h1 {
@@ -957,6 +1095,58 @@ footer {
         font-size: 16px;
     }
 
+    .section-content {
+        flex-direction: column;
+        gap: 20px
+    }
+
+    #details-container {
+        padding: 50px 10px;
+    }
+
+    .details-image {
+        width: auto;
+    }
+
+    .details {
+        width: 80%;
+    }
+
+    #title {
+        height: 100px;
+    }
+
+    #buttons {
+        flex-direction: column;
+        align-items: center;
+
+        height: 180px;
+    }
+
+    #buttons div p {
+        font-size: 30px;
+        width: 80px;
+    }
+
+    #buttons div button {
+        font-size: 30px;
+        width: 50px;
+        height: 50px;
+    }
+
+    #buttons div {
+        margin-bottom: 20px;
+    }
+
+    #add-to-cart-button {
+        margin-left: 0;
+        padding: 20px 20px;
+        font-size: 30px;
+        height: auto;
+        border-radius: 30px;
+    }
+
+    /* Footer*/
     .footer-flex {
         flex-direction: column;
         align-items: center;
