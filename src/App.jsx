@@ -1,122 +1,93 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import './styles.css'
+import { Header } from './components/Header'
+import { Footer } from './components/Footer'
+import { BrandCarousel } from './components/BrandCarousel'
+import { ItemCard } from './components/ItemCard.jsx'
+import { cartStorageName, db } from './data/db.js'
+import heroImg from './assets/banner.jpg'
+import { library } from '@fortawesome/fontawesome-svg-core'
+
+/* import all the icons in Free Solid, Free Regular, and Brands styles */
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+
+function Hero() {
+    return (
+        <div id="hero">
+            <img src={heroImg} alt="Hero Banner" />
+            <div className="hero-overlay">
+                <h1>Explora nuevos mundos</h1>
+                <p>
+                    Encuentra las mejores ofertas en Nintendo, PlayStation y Xbox.
+                </p>
+                <button id="hero-button">
+                    Ver ofertas
+                </button>
+            </div>
+        </div>
+    )
+}
+
+function Section({title, games}) {
+    const items = [];
+    for (let i = 0; i < 4; i++) {
+        items.push(games[i])
+    }
+
+    return (
+        <section className="body-section">
+            <h1>
+                {title}
+            </h1>
+            <div className="section-content">
+            {items.map((game) => <ItemCard key={game.id} game={game} />)}
+            </div>
+            <div className="center-button">
+                <button>
+                    Ver más
+                </button>
+            </div>
+        </section>
+    )
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+    const nintendo_games = [];
+    const playstation_games = [];
+    const xbox_games = [];
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    for (const game of db.games) {
+        if (game.category.toLowerCase() === "nintendo") {
+            nintendo_games.push(game);
+        } else if (game.category.toLowerCase() === "playstation") {
+            playstation_games.push(game);
+        } else if (game.category.toLowerCase() === "xbox") {
+            xbox_games.push(game);
+        }
+    }
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+    return (
+        <>
+            <Header />
+            <main id="index-main">
+                <div className="body-space"></div>
+                <div className="body-center">
+                    <Hero />
+                    <Section title="Nintendo" games={nintendo_games} />
+                    <div className="section-separator"></div>
+                    <Section title="PlayStation" games={playstation_games} />
+                    <div className="section-separator"></div>
+                    <Section title="XBOX" games={xbox_games} />
+                </div>
+                <div className="body-space"></div>
+            </main>
+            <BrandCarousel />
+            <Footer />
+        </>
+    )
 }
 
 export default App
+library.add(fas, far, fab)
