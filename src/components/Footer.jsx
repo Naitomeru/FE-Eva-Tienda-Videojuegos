@@ -1,13 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Link } from 'react-router-dom'
+import Logo from '../assets/logo.png'
 
 export function Footer() {
     return (
         <footer>
             <div className="footer-flex">
                 <div className="footer-socials">
-                    <a id="footer-logo" href="index.html">
-                        <img src="images/logo.png" />
-                    </a>
+                    <Link id="footer-logo" to="/">
+                        <img src={Logo} />
+                    </Link>
                     <nav>
                         <a>
                             <FontAwesomeIcon icon="fa fa-brands fa-facebook-square" size='2x' />
@@ -23,17 +25,17 @@ export function Footer() {
                 
                 <section className="footer-section">
                     <h1>Categorías</h1>
-                    <a href="galeria.html?tipo=consolas">Consolas</a>
-                    <a href="galeria.html?tipo=videojuegos">Videojuegos</a>
-                    <a href="galeria.html?tipo=ofertas">Ofertas</a>
-                    <a href="galeria.html?tipo=preventas">Preventa</a>
+                    <Link to="/consolas">Consolas</Link>
+                    <Link to="/videojuegos">Videojuegos</Link>
+                    <Link to="/ofertas">Ofertas</Link>
+                    <Link to="/preventas">Preventa</Link>
                 </section>
 
                 <section className="footer-section">
                     <h1>Marcas</h1>
-                    <a href="galeria.html?tipo=marca&categoria=Nintendo">Nintendo</a>
-                    <a href="galeria.html?tipo=marca&categoria=PlayStation">PlayStation</a>
-                    <a href="galeria.html?tipo=marca&categoria=Xbox">Xbox</a>
+                    <Link to="/nintendo">Nintendo</Link>
+                    <Link to="/playstation">PlayStation</Link>
+                    <Link to="/xbox">Xbox</Link>
                 </section>
             </div>
             

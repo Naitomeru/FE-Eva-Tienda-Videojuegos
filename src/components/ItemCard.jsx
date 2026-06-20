@@ -1,10 +1,10 @@
 import { priceToString, priceWithSale } from '../util.jsx'
 
-export function ItemCard({game}) {
+export function ItemCard({item}) {
     let label = null;
-    if (game.discount !== undefined) {
+    if (item.discount !== undefined) {
         label = "OFERTA"
-    } else if (game.presale !== undefined) {
+    } else if (item.presale !== undefined) {
         label = "PREVENTA"
     }
 
@@ -12,12 +12,12 @@ export function ItemCard({game}) {
         <a className="section-content-item">
             <div className="item-image">
                 {label && <div className="item-label">{label}</div>}
-                <img src={game.path_image} />
+                <img src={item.path_image} />
             </div>
-            <h2>{game.title}</h2>
-            <p style={game.discount && {textDecoration:"line-through 2px"}}>{priceToString(game.price)}</p>
+            <h2>{item.title}</h2>
+            <p style={item.discount && {textDecoration:"line-through 2px"}}>{priceToString(item.price)}</p>
 
-            <h3 className="sale-price">{game.discount && priceToString(priceWithSale(game.price, game.discount))}</h3>
+            <h3 className="sale-price">{item.discount && priceToString(priceWithSale(item.price, item.discount))}</h3>
         </a>
     )
 }

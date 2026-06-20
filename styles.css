@@ -1174,5 +1174,8 @@ footer {
     .footer-socials nav {
         justify-content: center;
     }
+    .copyright br {
+        display: block;
+    }
 }
 /* ----------------- /FOOTER ----------------- */

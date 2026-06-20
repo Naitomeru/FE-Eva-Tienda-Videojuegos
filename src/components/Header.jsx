@@ -1,11 +1,14 @@
+import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Link } from 'react-router-dom'
+import Logo from '../assets/logo.png'
 
 function MainHeader() {
     return (
         <div className="header-main">
-            <a id="header-logo" href="index.html">
-                <img src="images/logo.png" />
-            </a>
+            <Link id="header-logo" to="/">
+                <img src={Logo} />
+            </Link>
     
             <div id="header-searcher">
                 <input type="text" placeholder="Buscar..." />
@@ -43,35 +46,60 @@ function MainHeader() {
     )
 }
 
+function Popup({ category }) {
+    return (
+        <div className="header-button-popup">
+            <Link to={"/" + category + "/consolas"}>Consolas</Link>
+            <Link to={"/" + category + "/videojuegos"}>Videojuegos</Link>
+        </div>
+    )
+}
+
 function HeaderButtons() {
+    const [nintendoPopup, setNintendoPopup] = useState(false);
+    const [playstationPopup, setPlaystationPopup] = useState(false);
+    const [xboxPopup, setXboxPopup] = useState(false);
+
     return (
         <div className="header-buttons-container">
-            <div id="ofertas-button" className="header-button">
+            <Link to="/ofertas" id="ofertas-button" className="header-button">
                 Ofertas
-            </div>
-            <div id="preventas-button" className="header-button">
+            </Link>
+            <Link to="/preventas" id="preventas-button" className="header-button">
                 Preventas
-            </div>
-            <div id="nintendo-button" className="header-button">
+            </Link>
+            <div id="nintendo-button" className="header-button"
+                onMouseEnter={() => {
+                    setNintendoPopup(true);
+                }}
+                onMouseLeave={() => {
+                    setNintendoPopup(false);
+                }}
+            >
                 Nintendo
-                <div className="header-button-popup">
-                    <a href="galeria.html?tipo=Consolas&categoria=Nintendo">Consolas</a>
-                    <a href="galeria.html?tipo=Videojuegos&categoria=Nintendo">Videojuegos</a>
-                </div>
+                {nintendoPopup && <Popup category={"nintendo"} />}
             </div>
-            <div id="playstation-button" className="header-button">
+            <div id="playstation-button" className="header-button"
+                onMouseEnter={() => {
+                    setPlaystationPopup(true);
+                }}
+                onMouseLeave={() => {
+                    setPlaystationPopup(false);
+                }}
+            >
                 PlayStation
-                <div className="header-button-popup">
-                    <a href="galeria.html?tipo=Consolas&categoria=PlayStation">Consolas</a>
-                    <a href="galeria.html?tipo=Videojuegos&categoria=PlayStation">Videojuegos</a>
-                </div>
+                {playstationPopup && <Popup category={"playstation"} />}
             </div>
-            <div id="xbox-button" className="header-button">
+            <div id="xbox-button" className="header-button"
+                onMouseEnter={() => {
+                    setXboxPopup(true);
+                }}
+                onMouseLeave={() => {
+                    setXboxPopup(false);
+                }}
+            >
                 Xbox
-                <div className="header-button-popup">
-                    <a href="galeria.html?tipo=Consolas&categoria=Xbox">Consolas</a>
-                    <a href="galeria.html?tipo=Videojuegos&categoria=Xbox">Videojuegos</a>
-                </div>
+                {xboxPopup && <Popup category={"xbox"} />}
             </div>
         </div>
     )
