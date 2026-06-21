@@ -23,10 +23,10 @@ function MainHeader() {
 
             <div id="header-left-buttons">
                 <div id="cart-button">
-                    <a href="carrito.html">
+                    <Link to="/cart">
                         <FontAwesomeIcon icon="fa-solid fa-cart-shopping" />
                         <span>({quantity})</span>
-                    </a>
+                    </Link>
                 </div>
                 <div id="header-login">
                     <a href="login.html">

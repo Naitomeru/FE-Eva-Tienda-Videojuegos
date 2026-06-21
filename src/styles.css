@@ -291,6 +291,9 @@ header {
 
 body {
     margin: 0;
+}
+
+#root {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -770,7 +773,7 @@ main {
     padding-right: 20px;
 }
 
-#cart i {
+#cart .icon {
     place-self: center;
     margin: 0 20px;
 }

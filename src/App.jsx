@@ -8,6 +8,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { Details } from "./pages/Details";
+import { Cart } from "./pages/Cart";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/:category/:type?" element={<Gallery />} />
             <Route path="/detalles/:type/:id" element={<Details />} />
+            <Route path="/cart" element={<Cart />} />
         </Routes>
     )
 }
