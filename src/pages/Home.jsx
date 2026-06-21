@@ -38,7 +38,7 @@ function Section({title, games}) {
                 {title}
             </h1>
             <div className="section-content">
-                {items.map((game) => <ItemCard key={game.id} item={game} />)}
+                {items.map((game) => <ItemCard key={game.id} item={game} type="videogame" />)}
             </div>
             <div className="center-button">
                 <Link to={"/" + title.toLowerCase()}>

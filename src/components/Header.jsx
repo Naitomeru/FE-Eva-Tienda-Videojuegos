@@ -2,8 +2,12 @@ import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
 import Logo from '../assets/logo.png'
+import { cartStorageName } from '../data/db'
 
 function MainHeader() {
+    const cart = JSON.parse( localStorage.getItem(cartStorageName) ) || [];
+    const quantity = cart.length;
+
     return (
         <div className="header-main">
             <Link id="header-logo" to="/">
@@ -21,7 +25,7 @@ function MainHeader() {
                 <div id="cart-button">
                     <a href="carrito.html">
                         <FontAwesomeIcon icon="fa-solid fa-cart-shopping" />
-                        <span>(0)</span>
+                        <span>({quantity})</span>
                     </a>
                 </div>
                 <div id="header-login">

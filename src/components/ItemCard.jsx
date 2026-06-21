@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom';
 import { priceToString, priceWithSale } from '../util.jsx'
 
-export function ItemCard({item}) {
+export function ItemCard({item, type}) {
     let label = null;
     if (item.discount !== undefined) {
         label = "OFERTA"
@@ -9,7 +10,7 @@ export function ItemCard({item}) {
     }
 
     return (
-        <a className="section-content-item">
+        <Link to={"/detalles/" + type + "/" + item.id} className="section-content-item">
             <div className="item-image">
                 {label && <div className="item-label">{label}</div>}
                 <img src={item.path_image} />
@@ -18,6 +19,6 @@ export function ItemCard({item}) {
             <p style={item.discount && {textDecoration:"line-through 2px"}}>{priceToString(item.price)}</p>
 
             <h3 className="sale-price">{item.discount && priceToString(priceWithSale(item.price, item.discount))}</h3>
-        </a>
+        </Link>
     )
 }
