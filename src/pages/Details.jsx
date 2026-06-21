@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { priceToString, priceWithSale } from '../util.jsx'
 import { cartStorageName, db } from '../data/db.js';
 import { useState, useEffect } from 'react';
+import { BrandCarousel } from '../components/BrandCarousel.jsx';
 
 // Custom hook to manage localStorage
 const UseLocalStorage = (key, initialValue) => {
@@ -97,6 +98,7 @@ export function Details() {
                     </div>
                 </div>
             </main>
+            <BrandCarousel />
             <Footer />
         </>
     )

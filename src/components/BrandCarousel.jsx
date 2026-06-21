@@ -1,55 +1,56 @@
+import { Link } from 'react-router-dom'
 
 export function BrandCarousel() {
     return (
         <section className="brands-carousel">
             <div className="brands-track">
-                <div className="brand-item">
+                <Link to="/nintendo" className="brand-item">
                     <img src="images/logos/nintendo.png" alt="Nintendo" />
-                </div>
+                </Link>
 
-                <div className="brand-item">
+                <Link to="/playstation" className="brand-item">
                     <img src="images/logos/playstation.png" alt="PlayStation" />
-                </div>
+                </Link>
 
-                <div className="brand-item">
+                <Link to="/xbox" className="brand-item">
                     <img src="images/logos/xbox.png" alt="Xbox" />
-                </div>
+                </Link>
 
-                <div className="brand-item">
+                <Link to="/nintendo" className="brand-item">
                     <img src="images/logos/nintendo.png" alt="Nintendo" />
-                </div>
+                </Link>
 
-                <div className="brand-item">
+                <Link to="/playstation" className="brand-item">
                     <img src="images/logos/playstation.png" alt="PlayStation" />
-                </div>
+                </Link>
 
-                <div className="brand-item">
+                <Link to="/xbox" className="brand-item">
                     <img src="images/logos/xbox.png" alt="Xbox" />
-                </div>
+                </Link>
 
-                <div className="brand-item">
+                <Link to="/nintendo" className="brand-item">
                     <img src="images/logos/nintendo.png" alt="Nintendo" />
-                </div>
+                </Link>
 
-                <div className="brand-item">
+                <Link to="/playstation" className="brand-item">
                     <img src="images/logos/playstation.png" alt="PlayStation" />
-                </div>
+                </Link>
 
-                <div className="brand-item">
+                <Link to="/xbox" className="brand-item">
                     <img src="images/logos/xbox.png" alt="Xbox" />
-                </div>
+                </Link>
 
-                <div className="brand-item">
+                <Link to="/nintendo" className="brand-item">
                     <img src="images/logos/nintendo.png" alt="Nintendo" />
-                </div>
+                </Link>
 
-                <div className="brand-item">
+                <Link to="/playstation" className="brand-item">
                     <img src="images/logos/playstation.png" alt="PlayStation" />
-                </div>
+                </Link>
 
-                <div className="brand-item">
+                <Link to="/xbox" className="brand-item">
                     <img src="images/logos/xbox.png" alt="Xbox" />
-                </div>
+                </Link>
             </div>
         </section>
     )

@@ -3,6 +3,7 @@ import { Footer } from '../components/Footer'
 import { ItemCard } from '../components/ItemCard'
 import { db } from '../data/db'
 import { useParams } from 'react-router-dom'
+import { BrandCarousel } from '../components/BrandCarousel'
 
 export function Gallery() {
     const { category, type } = useParams();
@@ -78,6 +79,7 @@ export function Gallery() {
                     })}
                 </div>
             </main>
+            <BrandCarousel />
             <Footer />
         </>
     )
