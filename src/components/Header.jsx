@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import Logo from '../assets/logo.png'
 import { cartStorageName } from '../data/db'
 
-function MainHeader() {
+function MainHeader({showRightButtons}) {
     const cart = JSON.parse( localStorage.getItem(cartStorageName) ) || [];
     const quantity = cart.length;
 
@@ -21,22 +21,24 @@ function MainHeader() {
                 </button>
             </div>
 
-            <div id="header-left-buttons">
+            {showRightButtons &&
+            <div id="header-right-buttons">
                 <div id="cart-button">
-                    <Link to="/cart">
-                        <FontAwesomeIcon icon="fa-solid fa-cart-shopping" />
+                    <Link to="/cart" id="cart-link">
+                        <FontAwesomeIcon icon="fa-solid fa-cart-shopping" id="cart-icon" />
                         <span>({quantity})</span>
                     </Link>
                 </div>
                 <div id="header-login">
-                    <a href="login.html">
+                    <Link to="/login">
                         Iniciar sesión
-                    </a>
-                    <a href="register.html">
+                    </Link>
+                    <Link to="/register">
                         Registrarse
-                    </a>
+                    </Link>
                 </div>
             </div>
+            }
             
             <div id="header-more-button">
                 <FontAwesomeIcon icon="fa-solid fa-grip-lines">
@@ -109,10 +111,10 @@ function HeaderButtons() {
     )
 }
 
-export function Header() {
+export function Header({showRightButtons=true}) {
     return (
         <header>
-            <MainHeader />
+            <MainHeader showRightButtons={showRightButtons} />
             <HeaderButtons />
         </header>
     )

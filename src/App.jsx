@@ -9,6 +9,8 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { Details } from "./pages/Details";
 import { Cart } from "./pages/Cart";
+import { Login } from "./pages/Login";
+import { Register } from "./pages/Register";
 
 function App() {
     return (
@@ -17,6 +19,8 @@ function App() {
             <Route path="/:category/:type?" element={<Gallery />} />
             <Route path="/detalles/:type/:id" element={<Details />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
         </Routes>
     )
 }

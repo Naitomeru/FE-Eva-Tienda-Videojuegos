@@ -82,7 +82,7 @@ header {
     background-color: var(--secondary-color);
 }
 
-#header-left-buttons {
+#header-right-buttons {
     display: flex;
     align-items: center;
     margin: 0px 30px 0px 0px;
@@ -92,7 +92,7 @@ header {
     margin-right: 10px;
 }
 
-#cart-button a {
+#cart-button #cart-link {
     display: flex;
     align-items: center;
 
@@ -110,7 +110,7 @@ header {
     text-decoration: none;
 }
 
-#cart-button a i {
+#cart-button #cart-icon {
     margin-right: 5px;
 }
 
@@ -1178,6 +1178,9 @@ footer {
     }
     .footer-socials nav {
         justify-content: center;
+    }
+    .copyright br {
+        display: block;
     }
 }
 /* ----------------- /FOOTER ----------------- */
