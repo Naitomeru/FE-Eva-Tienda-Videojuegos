@@ -18,9 +18,9 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/:category/:type?" element={<Gallery />} />
             <Route path="/detalles/:type/:id" element={<Details />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/carrito" element={<Cart />} />
+            <Route path="/iniciar-sesion" element={<Login />} />
+            <Route path="/registrarse" element={<Register />} />
         </Routes>
     )
 }

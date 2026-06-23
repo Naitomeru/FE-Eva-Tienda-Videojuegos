@@ -20,7 +20,7 @@ header {
     background-color: var(--primary-color-dark);
 }
 
-.header-main {
+#header-main {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -52,7 +52,7 @@ header {
     display: flex;
 
     justify-content: center;
-    margin: 10px;
+    margin-right: 20px;
 }
 
 #header-searcher input[type=text] {
@@ -85,7 +85,7 @@ header {
 #header-right-buttons {
     display: flex;
     align-items: center;
-    margin: 0px 30px 0px 0px;
+    margin-right: 30px;
 }
 
 #cart-button {
@@ -150,7 +150,60 @@ header {
 }
 
 #header-more-button {
+    position: relative;
     display: none;
+    height: 120%;
+    border-radius: 10px;
+    margin: 0 30px;
+    font-size: 60px;
+    justify-content: center;
+    align-items: center;
+}
+
+#header-more-button:hover {
+    background-color: var(--primary-color-light);
+}
+
+#header-links {
+    margin: 0;
+    background-color: var(--primary-color-light);
+    padding: 10px 20px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#header-links a {
+    user-select: none;
+    color: black;
+    text-decoration: none;
+}
+
+#header-links .popup-separator {
+    height: 2px;
+    background-color: var(--primary-color-dark);
+    border-radius: 2px;
+}
+
+#header-links a, #header-links div {
+    font-size: 20px;
+    margin: 5px 0;
+    color: var(--text-color);
+}
+
+#header-links .dropdown .dropdown-button {
+    float: right;
+}
+
+#header-links .dropdown-content {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#header-links .dropdown-content a {
+    font-size: 18px;
+    margin: 8px 0;
 }
 
 .header-buttons-container {
@@ -600,13 +653,17 @@ main {
     margin: 25px 0px 20px;
 }
 
-#login-form div {
+#login-form > div {
     margin-bottom: 10px;
 }
 
-#login-form div a {
+#login-form > div a {
     color: rgb(43, 159, 255);
     text-decoration: none;
+}
+
+#login-form > div br {
+    display: none;
 }
 
 #login-button, #register-button {
@@ -939,19 +996,18 @@ footer {
 }
 
 @media (max-width: 1000px) {
-    
-
-    .header-main {
+    #header-main {
         height: 100px;
     }
 
     #header-logo {
         width: 200px;
         height: 70px;
+        margin: 0 0 0 20px;
     }
 
     #header-searcher input[type=text] {
-        width: 50%;
+        width: 55%;
         font-size: x-large;
     }
 
@@ -959,33 +1015,29 @@ footer {
         font-size: x-large;
     }
 
+    #header-right-buttons {
+        margin-right: 20px;
+        justify-content: center;
+    }
+
+    #header-login a {
+        font-size: 20px;
+    }
+
+    .header-button {
+        font-size: 20px;
+        padding: 10px 15px;
+    }
+
     #cart-button {
         height: 100%;
     }
 
-    #cart-button a {
-        padding: 20px;
+    #cart-button #cart-link {
+        padding: 15px;
         margin-right: 0;
         margin: 0;
-        font-size: x-large;
-    }
-
-    #header-more-button {
-        display: inline;
-        margin: 0 30px;
-        font-size: 50px;
-    }
-    
-    #header-login {
-        display: none;
-    }
-
-    #cart-button span {
-        display: none;
-    }
-
-    .header-buttons-container {
-        display: none;
+        font-size: 20px;
     }
 
     .hero-overlay h1 {
@@ -1059,32 +1111,40 @@ footer {
     }
 }
 
-@media (max-width: 550px) {
-    .header-main {
+@media (max-width: 650px) {
+    #header-main {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        gap: 15px;
-        padding: 15px 0;
-        height: 250px;
-        margin: 20px;
+        row-gap: 30px;
+        height: 100%;
+        margin: 20px 10px;
     }
 
     #header-searcher {
         grid-column: 1 / span 2;
-    }
-    .header-main i {
-        place-self: center;
+        margin-left: 10px;
     }
 
     #header-logo {
         grid-column: 1 / span 3;
         place-self: center;
+        margin: 0;
     }
-    #header-left-buttons {
+
+    #header-right-buttons {
         display: none;
     }
+
+    #header-more-button {
+        display: flex;
+    }
+
     #header-searcher input[type=text] {
         flex: 1;
+    }
+
+    .header-buttons-container {
+        display: none;
     }
 
     #hero {
@@ -1105,6 +1165,10 @@ footer {
     .hero-overlay p {
         width: 90%;
         font-size: 16px;
+    }
+
+    .body-section h1 {
+        font-size: 40px;
     }
 
     .section-content {
@@ -1162,6 +1226,23 @@ footer {
     #gallery {
         display: flex;
         flex-direction: column;
+    }
+
+    #login-form {
+        border-radius: 0;
+        margin: 0;
+        padding: 30px 0;
+        width: 100%;
+    }
+
+    #login-form > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #login-form > div a {
+        margin-top: 10px;
     }
 
     /* Footer*/

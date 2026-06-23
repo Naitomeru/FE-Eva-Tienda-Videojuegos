@@ -3,13 +3,87 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
 import Logo from '../assets/logo.png'
 import { cartStorageName } from '../data/db'
+import { createPortal } from 'react-dom'
+
+function HeaderButtonsPopup({setMoreButtonPopup}) {
+    const [consolas, setConsolas] = useState(false);
+    const [videojuegos, setVideojuegos] = useState(false);
+
+    return (
+        <div id="header-links">
+            <Link to="/carrito">Mi Carrito</Link>
+            <div className="popup-separator"></div>
+            <Link to="/iniciar-sesion">Iniciar sesión</Link>
+            <div className="popup-separator"></div>
+            <Link to="/registrarse">Registrarse</Link>
+            <div className="popup-separator"></div>
+            <Link to="/ofertas" onClick={() => setMoreButtonPopup(false)}>Ofertas</Link>
+            <div className="popup-separator"></div>
+            <Link to="/preventas" onClick={() => setMoreButtonPopup(false)}>Preventas</Link>
+            <div className="popup-separator"></div>
+            <div className='dropdown' onClick={() => {
+                setConsolas(!consolas)
+            }}>
+                <Link to="/consolas" onClick={() => setMoreButtonPopup(false)}>Consolas</Link>
+                {consolas ?
+                <FontAwesomeIcon icon="fa-solid fa-angle-down" className='dropdown-button' />
+                :
+                <FontAwesomeIcon icon="fa-solid fa-angle-up" className='dropdown-button' />
+                }
+            </div>
+            {consolas &&
+            <div className='dropdown-content'>
+                <Link to="/nintendo/consolas" onClick={() => setMoreButtonPopup(false)}>
+                    &gt; Nintendo
+                </Link>
+                <Link to="/playstation/consolas" onClick={() => setMoreButtonPopup(false)}>
+                    &gt; PlayStation
+                </Link>
+                <Link to="/xbox/consolas" onClick={() => setMoreButtonPopup(false)}>
+                    &gt; XBOX
+                </Link>
+            </div>
+            }
+            <div className="popup-separator"></div>
+            <div className='dropdown' onClick={() => {
+                setVideojuegos(!videojuegos)
+            }}>
+                <Link to="/videojuegos" onClick={() => setMoreButtonPopup(false)}>Videojuegos</Link>
+                {videojuegos ?
+                <FontAwesomeIcon icon="fa-solid fa-angle-down" className='dropdown-button' />
+                :
+                <FontAwesomeIcon icon="fa-solid fa-angle-up" className='dropdown-button' />
+                }
+            </div>
+            {videojuegos &&
+            <div className='dropdown-content'>
+                <Link to="/nintendo/videojuegos" onClick={() => setMoreButtonPopup(false)}>
+                    &gt; Nintendo
+                </Link>
+                <Link to="/playstation/videojuegos" onClick={() => setMoreButtonPopup(false)}>
+                    &gt; PlayStation
+                </Link>
+                <Link to="/xbox/videojuegos" onClick={() => setMoreButtonPopup(false)}>
+                    &gt; XBOX
+                </Link>
+            </div>
+            }
+        </div>
+    )
+}
 
 function MainHeader({showRightButtons}) {
     const cart = JSON.parse( localStorage.getItem(cartStorageName) ) || [];
     const quantity = cart.length;
 
+    const [moreButtonPopup, setMoreButtonPopup] = useState(false);
+
+    function onMoreButtonClick() {
+        setMoreButtonPopup(!moreButtonPopup);
+    }
+
     return (
-        <div className="header-main">
+        <div id="header-main">
             <Link id="header-logo" to="/">
                 <img src={Logo} />
             </Link>
@@ -24,16 +98,16 @@ function MainHeader({showRightButtons}) {
             {showRightButtons &&
             <div id="header-right-buttons">
                 <div id="cart-button">
-                    <Link to="/cart" id="cart-link">
+                    <Link to="/carrito" id="cart-link">
                         <FontAwesomeIcon icon="fa-solid fa-cart-shopping" id="cart-icon" />
                         <span>({quantity})</span>
                     </Link>
                 </div>
                 <div id="header-login">
-                    <Link to="/login">
+                    <Link to="/iniciar-sesion">
                         Iniciar sesión
                     </Link>
-                    <Link to="/register">
+                    <Link to="/registrarse">
                         Registrarse
                     </Link>
                 </div>
@@ -41,12 +115,10 @@ function MainHeader({showRightButtons}) {
             }
             
             <div id="header-more-button">
-                <FontAwesomeIcon icon="fa-solid fa-grip-lines">
-                    <div className="header-button-popup">
-                        <a href="galeria.html?tipo=Consolas&categoria=Nintendo">Consolas</a>
-                        <a href="galeria.html?tipo=Videojuegos&categoria=Nintendo">Videojuegos</a>
-                    </div>
-                </FontAwesomeIcon>
+                <FontAwesomeIcon icon="fa-solid fa-grip-lines" id="more-button-icon" onClick={onMoreButtonClick} />
+                {moreButtonPopup &&
+                createPortal(<HeaderButtonsPopup setMoreButtonPopup={setMoreButtonPopup} />, document.getElementsByTagName("header")[0])
+                }
             </div>
         </div>
     )

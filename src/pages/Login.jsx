@@ -30,7 +30,7 @@ export function Login() {
                             </div>
                         </form>
                         <div>
-                            ¿No tienes una cuenta? <Link to="/register">Regístrate</Link>
+                            ¿No tienes una cuenta?<br /> <Link to="/registrarse">Regístrate</Link>
                         </div>
                     </div>
 

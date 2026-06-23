@@ -45,7 +45,7 @@ export function Register() {
                             </div>
                         </form>
                         <div>
-                            ¿Ya tienes una cuenta? <Link to="/login">Inicia sesión</Link>
+                            ¿Ya tienes una cuenta?<br /> <Link to="/iniciar-sesion">Inicia sesión</Link>
                         </div>
                     </div>
 
