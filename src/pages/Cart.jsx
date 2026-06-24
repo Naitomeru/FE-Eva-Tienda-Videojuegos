@@ -1,7 +1,7 @@
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
-import { priceToString } from "../util";
-import { cartStorageName } from "../data/db";
+import { priceToString, priceWithSale } from "../util";
+import { cartStorageName, db } from "../data/db";
 import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from '../styles/Cart.module.css'
@@ -23,24 +23,33 @@ function CartItemBig({index, item, removeQuantity, addQuantity, removeItem}) {
         <>
             <div className={styles.product}>
                 <div className={styles.image}>
-                    <img src={item.path_image} />
+                    <img src={item.item.path_image} />
                 </div>
                 <div className={styles.itemDetails}>
                     <div className={styles.title}>
-                        {item.title}
+                        {item.item.title}
                     </div>
                     <div className={styles.price}>
-                        {priceToString(item.price)}
+                        {priceToString(item.item.price)}
                     </div>
                 </div>
             </div>
             <div className={styles.quantityButtons}>
-                <button onClick={() => removeQuantity(item)}>-</button>
+                <button onClick={() => removeQuantity(item, index)}>-</button>
                 <p>{item.quantity}</p>
-                <button onClick={() => addQuantity(item)}>+</button>
+                <button onClick={() => addQuantity(item, index)}>+</button>
             </div>
             <div className={styles.price}>
-                {priceToString(item.price * item.quantity)}
+                <div style={item.item.discount &&
+                    {textDecoration:"line-through 2px"}
+                } className={styles.priceOriginal}>
+                    {priceToString(item.item.price * item.quantity)}
+                </div>
+                {item.item.discount &&
+                <div className={styles.priceDiscount}>
+                    {priceToString(priceWithSale(item.item.price, item.item.discount) * item.quantity)}
+                </div>
+                }
             </div>
             <FontAwesomeIcon icon="fa-solid fa-trash" onClick={() => removeItem(index)} className={styles.icon} />
         </>
@@ -52,14 +61,14 @@ function CartItemSmall({index, item, removeQuantity, addQuantity, removeItem}) {
         <div className={styles.item}>
             <div className={styles.product}>
                 <div className={styles.image}>
-                    <img src={item.path_image} />
+                    <img src={item.item.path_image} />
                 </div>
                 <div className={styles.itemDetails}>
                     <div className={styles.title}>
-                        {item.title}
+                        {item.item.title}
                     </div>
                     <div className={styles.price}>
-                        {priceToString(item.price)}
+                        {priceToString(item.item.price)}
                     </div>
                 </div>
                 <FontAwesomeIcon icon="fa-solid fa-trash" onClick={() => removeItem(index)} className={styles.icon} />
@@ -68,12 +77,21 @@ function CartItemSmall({index, item, removeQuantity, addQuantity, removeItem}) {
                 <h3>Cantidad</h3>
                 <h3>Subtotal</h3>
                 <div className={styles.quantityButtons}>
-                    <button onClick={() => removeQuantity(item)}>-</button>
+                    <button onClick={() => removeQuantity(item, index)}>-</button>
                     <p>{item.quantity}</p>
-                    <button onClick={() => addQuantity(item)}>+</button>
+                    <button onClick={() => addQuantity(item, index)}>+</button>
                 </div>
                 <div className={styles.price}>
-                    <div>{priceToString(item.price * item.quantity)}</div>
+                    <div style={item.item.discount &&
+                    {textDecoration:"line-through 2px"}
+                    } className={styles.priceOriginal}>
+                        {priceToString(item.item.price * item.quantity)}
+                    </div>
+                    {item.item.discount &&
+                    <div className={styles.priceDiscount}>
+                        {priceToString(priceWithSale(item.item.price, item.item.discount) * item.quantity)}
+                    </div>
+                    }
                 </div>
             </div>
         </div>
@@ -88,24 +106,47 @@ export function Cart() {
         setCart([]);
     }
 
-    let total = 0;
-    for (const item of cart) {
-        total += item.price * item.quantity;
+    function getItem(item_in_cart) {
+        const collection = item_in_cart.type === "console" ? db.consoles : db.games;
+
+        for (const item of collection) {
+            if (item.id == item_in_cart.id) {
+                return item;
+            }
+        }
     }
 
-    function removeQuantity(item) {
+    let total = 0;
+    const cart_items = []
+    for (const item_in_cart of cart) {
+        const item = getItem(item_in_cart);
+        if (item.discount) {
+            total += priceWithSale(item.price, item.discount) * item_in_cart.quantity;
+        } else {
+            total += item.price * item_in_cart.quantity;
+        }
+        cart_items.push({
+            "item": item,
+            "type": item_in_cart.type,
+            "quantity": item_in_cart.quantity
+        })
+    }
+
+    function removeQuantity(item, index) {
         if (item.quantity > 1) {
             item.quantity = item.quantity - 1;
             const new_cart = [...cart];
+            new_cart[index].quantity = item.quantity;
             localStorage.setItem(cartStorageName, JSON.stringify(new_cart));
             setCart(new_cart);
         }
     }
 
-    function addQuantity(item) {
+    function addQuantity(item, index) {
         if (item.quantity < 100) {
             item.quantity = item.quantity + 1;
             const new_cart = [...cart];
+            new_cart[index].quantity = item.quantity;
             localStorage.setItem(cartStorageName, JSON.stringify(new_cart));
             setCart(new_cart);
         }
@@ -131,9 +172,9 @@ export function Cart() {
                             <h3>Cantidad</h3>
                             <h3>Subtotal</h3>
 
-                            {cart.map((item, index) => {
+                            {cart_items.map((item, index) => {
                                 return (
-                                    <CartItemBig key={item.type + item.id}
+                                    <CartItemBig key={item.type + item.item.id}
                                         index={index}
                                         item={item}
                                         removeQuantity={removeQuantity}
@@ -143,9 +184,9 @@ export function Cart() {
                             )})}
                         </div>
                         <div className={styles.cartSmall}>
-                            {cart.map((item, index) => {
+                            {cart_items.map((item, index) => {
                                 return (
-                                    <CartItemSmall key={item.type + item.id}
+                                    <CartItemSmall key={item.type + item.item.id}
                                         index={index}
                                         item={item}
                                         removeQuantity={removeQuantity}

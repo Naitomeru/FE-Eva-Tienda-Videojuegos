@@ -57,10 +57,7 @@ export function Details() {
         if (!exists) {
             const product = {
                 "id": current_item.id,
-                "title": current_item.title,
                 "type": type,
-                "price": current_item.price,
-                "path_image": current_item.path_image,
                 "quantity": quantity
             };
             new_cart.push(product);

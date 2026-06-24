@@ -32,7 +32,7 @@ export function priceToString(price) {
  * Trunca el valor a la unidad.
  *
  * @param {number} price El precio a truncar
- * @returns {string} El precio truncado
+ * @returns {number} El precio truncado
  */
 export function priceWithSale(price, sale) {
     const final_price = Math.floor(price * sale);

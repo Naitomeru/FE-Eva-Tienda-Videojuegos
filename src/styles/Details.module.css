@@ -154,7 +154,12 @@
         flex-direction: column;
     }
 
+    .priceOriginal {
+        margin-bottom: 20px;
+    }
+
     .priceDiscount {
+        margin-top: 0;
         margin-left: 0;
     }
 
