@@ -1,0 +1,87 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-color: var(--secondary-color);
+
+    border-radius: 20px;
+    margin: 20px;
+    padding: 30px 20%;
+}
+
+.form form div {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.form form div label {
+    margin-bottom: 3px;
+}
+
+.form form div input[type=text] {
+    font-size: 15px;
+}
+
+.page :global(.headerSearcher) {
+    margin-right: 30px;
+}
+
+.form :global(.centerButton) {
+    margin: 25px 0px 20px;
+}
+
+.form > div {
+    margin-bottom: 10px;
+}
+
+.form > div a {
+    color: rgb(43, 159, 255);
+    text-decoration: none;
+}
+
+.form > div br {
+    display: none;
+}
+
+.button {
+    padding: 5px 15px;
+    font-size: 15px;
+
+    border-style: solid;
+    border-color: var(--primary-color-dark);
+    border-radius: 30px;
+
+    background-color: var(--primary-color);
+}
+
+.button:hover {
+    cursor: pointer;
+
+    border-color: var(--primary-color);
+    background-color: var(--primary-color-light);
+}
+
+.button:active {
+    background-color: var(--primary-color-dark);
+}
+
+@media (max-width: 650px) {
+    .form {
+        border-radius: 0;
+        margin: 0;
+        padding: 30px 0;
+        width: 100%;
+    }
+
+    .form > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form > div a {
+        margin-top: 10px;
+    }
+}

@@ -1,4 +1,3 @@
-import '../styles.css'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { BrandCarousel } from '../components/BrandCarousel'
@@ -6,18 +5,19 @@ import { ItemCard } from '../components/ItemCard.jsx'
 import { cartStorageName, db } from '../data/db.js'
 import HeroImg from '../assets/banner.jpg'
 import { Link } from 'react-router-dom'
+import styles from '../styles/Home.module.css'
 
 function Hero() {
     return (
-        <div id="hero">
+        <div className={styles.hero}>
             <img src={HeroImg} alt="Hero Banner" />
-            <div className="hero-overlay">
+            <div className={styles.heroOverlay}>
                 <h1>Explora nuevos mundos</h1>
                 <p>
                     Encuentra las mejores ofertas en Nintendo, PlayStation y Xbox.
                 </p>
                 <Link to="/ofertas">
-                    <button id="hero-button">
+                    <button>
                         Ver ofertas
                     </button>
                 </Link>
@@ -33,16 +33,16 @@ function Section({title, games}) {
     }
 
     return (
-        <section className="body-section">
+        <section className={styles.section}>
             <h1>
                 {title}
             </h1>
-            <div className="section-content">
+            <div className={styles.content}>
                 {items.map((game) => <ItemCard key={game.id} item={game} type="videogame" />)}
             </div>
-            <div className="center-button">
+            <div className="centerButton">
                 <Link to={"/" + title.toLowerCase()}>
-                    <button>
+                    <button className={styles.moreButton}>
                         Ver más
                     </button>
                 </Link>
@@ -71,12 +71,12 @@ export function Home() {
             <Header />
             <main id="index-main">
                 <div className="body-space"></div>
-                <div className="body-center">
+                <div className={styles.body}>
                     <Hero />
                     <Section title="Nintendo" games={nintendo_games} />
-                    <div className="section-separator"></div>
+                    <div className={styles.separator}></div>
                     <Section title="PlayStation" games={playstation_games} />
-                    <div className="section-separator"></div>
+                    <div className={styles.separator}></div>
                     <Section title="XBOX" games={xbox_games} />
                 </div>
                 <div className="body-space"></div>

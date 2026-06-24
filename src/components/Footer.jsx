@@ -1,13 +1,14 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
 import Logo from '../assets/logo.png'
+import styles from '../styles/Footer.module.css'
 
 export function Footer() {
     return (
-        <footer>
-            <div className="footer-flex">
-                <div className="footer-socials">
-                    <Link id="footer-logo" to="/">
+        <footer className={styles.footer}>
+            <div className={styles.footerFlex}>
+                <div className={styles.footerSocials}>
+                    <Link className={styles.footerLogo} to="/">
                         <img src={Logo} />
                     </Link>
                     <nav>
@@ -23,7 +24,7 @@ export function Footer() {
                     </nav>
                 </div>
                 
-                <section className="footer-section">
+                <section className={styles.footerSection}>
                     <h1>Categorías</h1>
                     <Link to="/consolas">Consolas</Link>
                     <Link to="/videojuegos">Videojuegos</Link>
@@ -31,7 +32,7 @@ export function Footer() {
                     <Link to="/preventas">Preventa</Link>
                 </section>
 
-                <section className="footer-section">
+                <section className={styles.footerSection}>
                     <h1>Marcas</h1>
                     <Link to="/nintendo">Nintendo</Link>
                     <Link to="/playstation">PlayStation</Link>
@@ -39,7 +40,7 @@ export function Footer() {
                 </section>
             </div>
             
-            <div className="copyright">
+            <div className={styles.copyright}>
                 &copy; 2026 Expertos Games. <br />Todos los derechos reservados.
             </div>
         </footer>

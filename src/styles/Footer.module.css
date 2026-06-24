@@ -1,0 +1,133 @@
+.footer::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #7bffce, #ffffff, #7bffce
+    );
+
+    box-shadow: 0 0 10px rgba(123,255,206,0.6);
+}
+
+.footer {
+    background-color: var(--primary-color-dark);
+    color:#10382f;
+    margin-top: auto;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.08);
+}
+
+.footerLogo {
+    background-color: var(--primary-color-light);
+    border-radius: 50px;
+    width: 170px;
+    height: 60px;
+    margin: 10px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.08);
+}
+
+.footerLogo img {
+    max-width: 105px;
+    max-height: 50px;
+    width: auto;
+    height: auto;
+
+    padding: 0 10px;
+
+    border-radius: 50px;
+}
+
+.footerFlex {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 50px;
+    padding: 45px 8%;
+}
+
+.footerSocials {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.footerSocials nav {
+    display: flex;
+    gap: 18px;
+}
+
+.footerSocials nav a {
+    color: #10382f;
+    transition: 0.3s ease;
+}
+
+.footerSocials nav a:hover {
+    transform: translateY(-5px) scale(1.1);
+    color: var(--primary-color-light);
+}
+
+.footerSection {
+    display: flex;
+    flex-direction: column;
+    min-width: 180px;
+}
+
+.footerSection h1 {
+    font-size: 22px;
+    margin-bottom: 18px;
+    position: relative;
+}
+
+.footerSection h1::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100px;
+    height: 3px;
+    border-radius: 10px;
+    background-color: var(--primary-color-light);
+}
+
+.footerSection a {
+    margin: 7px 0;
+    text-decoration: none;
+    color: #10382f;
+    transition: 0.25s ease;
+}
+
+.footerSection a:hover {
+    transform: translateX(6px);
+    color: var(--secondary-color-light);
+}
+
+.copyright {
+    text-align: center;
+    padding: 18px;
+    background-color: rgba(0,0,0,0.08);
+    font-size: 14px;
+}
+
+.copyright br {
+    display: none;
+}
+
+@media (max-width: 650px) {
+    .footerFlex {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .footerSection h1::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .footerSocials nav {
+        justify-content: center;
+    }
+    .copyright br {
+        display: block;
+    }
+}

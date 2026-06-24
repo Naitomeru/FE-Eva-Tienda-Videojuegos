@@ -1,0 +1,190 @@
+.container {
+    display: flex;
+    padding: 50px 0;
+}
+
+.image {
+    width: 400px;
+    height: 400px;
+    text-align: center;
+}
+
+.image img {
+    height: 100%;
+}
+
+.details {
+    margin: 0 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    color: var(--text-color);
+    height: 80px;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+}
+
+.priceOriginal {
+    color: var(--text-color);
+}
+
+.priceDiscount {
+    color: var(--important-color);
+    font-size: 30px;
+    margin-left: 30px;
+}
+
+.separator {
+    height: 3px;
+    width: 100%;
+    background-color: var(--primary-color-dark);
+    border-radius: 10px;
+}
+
+.buttons {
+    display: flex;
+    height: 40px;
+
+    margin-top: 20px;
+}
+
+.buttons div {
+    display: flex;
+    align-items: center;
+}
+
+.buttons div p {
+    width: 40px;
+    text-align: center;
+}
+
+/* Para los botones - + y Agregar al carrito */
+.buttons button {
+    background-color: var(--primary-color);
+    border-radius: 10px;
+}
+
+.buttons button:hover {
+    background-color: var(--primary-color-light);
+}
+
+.buttons button:active {
+    background-color: var(--primary-color-dark);
+}
+
+/* Solo para los botones - y + */
+.buttons div button {
+    width: 40px;
+    height: 40px;
+    font-size: x-large;
+}
+
+.addToCartButton {
+    height: 40px;
+    margin-left: 40px;
+    padding: 0 20px;
+}
+
+.label {
+    align-self: flex-start;
+
+    padding: 5px 30px;
+    border-radius: 0 20px 20px 0;
+
+    background-color: var(--important-color);
+    color: white;
+
+    font-weight: 1000;
+    font-size: 30px;
+}
+
+@media (max-width: 1000px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .image {
+        width: 70%;
+        max-width: 400px;
+        height: auto;
+        padding: 0;
+    }
+
+    .image img {
+        height: auto;
+        width: 100%;
+    }
+
+    .buttons {
+        justify-content: space-around;
+    }
+
+    .buttons div button {
+        font-size: 30px;
+        width: 50px;
+        height: 50px;
+    }
+
+    .addToCartButton {
+        font-size: 20px;
+        border-radius: 30px;
+    }
+}
+
+@media (max-width: 650px) {
+    .container {
+        padding: 50px 10px;
+    }
+
+    .details {
+        width: 80%;
+    }
+
+    .title {
+        height: 100px;
+    }
+
+    .price {
+        flex-direction: column;
+    }
+
+    .priceDiscount {
+        margin-left: 0;
+    }
+
+    .buttons {
+        flex-direction: column;
+        align-items: center;
+
+        height: unset;
+    }
+
+    .buttons div p {
+        font-size: 30px;
+        width: 80px;
+    }
+
+    .buttons div button {
+        font-size: 30px;
+        width: 50px;
+        height: 50px;
+    }
+
+    .buttons div {
+        margin-bottom: 20px;
+    }
+
+    .addToCartButton {
+        margin-left: 0;
+        padding: 20px 20px;
+        font-size: 30px;
+        height: auto;
+        border-radius: 30px;
+    }
+}

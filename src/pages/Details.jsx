@@ -5,6 +5,7 @@ import { priceToString, priceWithSale } from '../util.jsx'
 import { cartStorageName, db } from '../data/db.js';
 import { useState, useEffect } from 'react';
 import { BrandCarousel } from '../components/BrandCarousel.jsx';
+import styles from '../styles/Details.module.css'
 
 // Custom hook to manage localStorage
 const UseLocalStorage = (key, initialValue) => {
@@ -68,32 +69,47 @@ export function Details() {
         setCart(new_cart);
     }
 
+    let label = null;
+    if (current_item.discount !== undefined) {
+        label = "OFERTA"
+    } else if (current_item.presale !== undefined) {
+        label = "PREVENTA"
+    }
+
     return (
         <>
             <Header />
             <main>
-                <div id="details-container">
-                    <div className="details-image">
+                <div className={styles.container}>
+                    <div className={styles.image}>
                         <img src={current_item.path_image} />
                     </div>
-                    <div className="details">
-                        <h1 id="title">
+                    <div className={styles.details}>
+                        {label && <div className={styles.label}>{label}</div>}
+                        <h1 className={styles.title}>
                             {current_item.title}
                         </h1>
 
-                        <div className="details-separator"></div>
+                        <div className={styles.separator}></div>
 
-                        <h2 id="price">{priceToString(current_item.price)}</h2>
+                        <div className={styles.price}>
+                            <h2 style={current_item.discount && {textDecoration:"line-through 2px"}} className={styles.priceOriginal}>
+                                {priceToString(current_item.price)}
+                            </h2>
+                            <h2 className={styles.priceDiscount}>
+                                {current_item.discount && priceToString(priceWithSale(current_item.price, current_item.discount))}
+                            </h2>
+                        </div>
 
-                        <div className="details-separator"></div>
+                        <div className={styles.separator}></div>
 
-                        <div id="buttons">
+                        <div className={styles.buttons}>
                             <div>
                                 <button onClick={removeQuantity}>-</button>
                                 <p>{quantity}</p>
                                 <button onClick={addQuantity}>+</button>
                             </div>
-                            <button id="add-to-cart-button" onClick={updateCart}>Agregar al carrito</button>
+                            <button className={styles.addToCartButton} onClick={updateCart}>Agregar al carrito</button>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,43 @@
+.brandsCarousel {
+    overflow: hidden;
+    background-color: white;
+    padding: 12px 0;
+}
+
+.brandsTrack {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    animation: scrollBrands 40s linear infinite;
+}
+
+.brandItem {
+    width: 170px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.brandItem img {
+    width: auto;
+    height: 28px;
+    opacity: 0.65;
+    transition: 0.3s ease;
+    object-fit: contain;
+}
+
+.brandIitem img:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+@keyframes scrollBrands {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}

@@ -4,6 +4,7 @@ import { ItemCard } from '../components/ItemCard'
 import { db } from '../data/db'
 import { useParams } from 'react-router-dom'
 import { BrandCarousel } from '../components/BrandCarousel'
+import styles from '../styles/Gallery.module.css'
 
 export function Gallery() {
     const { category, type } = useParams();
@@ -68,9 +69,9 @@ export function Gallery() {
     return (
         <>
             <Header />
-            <main id="gallery-main">
+            <main className={styles.main}>
                 <h1>{category.charAt(0).toUpperCase() + category.slice(1)}</h1>
-                <div id="gallery">
+                <div className={styles.gallery}>
                     {consoles.map((item) => {
                         return <ItemCard key={"c" + item.id} item={item} type="console" />
                     })}

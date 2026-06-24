@@ -1,30 +1,31 @@
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { Link } from 'react-router-dom'
+import styles from '../styles/Login.module.css'
 
 export function Login() {
     return (
-        <>
+        <div className={styles.page}>
             <Header showRightButtons={false} />
                 <main>
                     <div className="body-space"></div>
 
-                    <div id="login-form">
+                    <div className={styles.form}>
                         <form name="f-login" onSubmit={(e) => {
                             e.preventDefault();
                         }}>
                             <div>
-                                <label for="f-email">Correo electrónico</label>
+                                <label htmlFor="f-email">Correo electrónico</label>
                                 <input type="text" name="f-email" id="f-email" />
                             </div>
                             
                             <div>
-                                <label for="f-password">Contraseña</label>
+                                <label htmlFor="f-password">Contraseña</label>
                                 <input type="text" name="f-password" id="f-password" />
                             </div>
 
-                            <div className="center-button">
-                                <button id="login-button">
+                            <div className="centerButton">
+                                <button className={styles.button}>
                                     Iniciar sesión
                                 </button>
                             </div>
@@ -37,6 +38,6 @@ export function Login() {
                     <div className="body-space"></div>
                 </main>
             <Footer />
-        </>
+        </div>
     )
 }

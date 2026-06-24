@@ -4,35 +4,36 @@ import { Link } from 'react-router-dom'
 import Logo from '../assets/logo.png'
 import { cartStorageName } from '../data/db'
 import { createPortal } from 'react-dom'
+import styles from '../styles/Header.module.css'
 
 function HeaderButtonsPopup({setMoreButtonPopup}) {
     const [consolas, setConsolas] = useState(false);
     const [videojuegos, setVideojuegos] = useState(false);
 
     return (
-        <div id="header-links">
+        <div className={styles.mainDropdown}>
             <Link to="/carrito">Mi Carrito</Link>
-            <div className="popup-separator"></div>
+            <div className={styles.popupSeparator}></div>
             <Link to="/iniciar-sesion">Iniciar sesión</Link>
-            <div className="popup-separator"></div>
+            <div className={styles.popupSeparator}></div>
             <Link to="/registrarse">Registrarse</Link>
-            <div className="popup-separator"></div>
+            <div className={styles.popupSeparator}></div>
             <Link to="/ofertas" onClick={() => setMoreButtonPopup(false)}>Ofertas</Link>
-            <div className="popup-separator"></div>
+            <div className={styles.popupSeparator}></div>
             <Link to="/preventas" onClick={() => setMoreButtonPopup(false)}>Preventas</Link>
-            <div className="popup-separator"></div>
-            <div className='dropdown' onClick={() => {
+            <div className={styles.popupSeparator}></div>
+            <div onClick={() => {
                 setConsolas(!consolas)
             }}>
                 <Link to="/consolas" onClick={() => setMoreButtonPopup(false)}>Consolas</Link>
                 {consolas ?
-                <FontAwesomeIcon icon="fa-solid fa-angle-down" className='dropdown-button' />
+                <FontAwesomeIcon icon="fa-solid fa-angle-down" className={styles.dropdownButton} />
                 :
-                <FontAwesomeIcon icon="fa-solid fa-angle-up" className='dropdown-button' />
+                <FontAwesomeIcon icon="fa-solid fa-angle-up" className={styles.dropdownButton} />
                 }
             </div>
             {consolas &&
-            <div className='dropdown-content'>
+            <div className={styles.dropdownContent}>
                 <Link to="/nintendo/consolas" onClick={() => setMoreButtonPopup(false)}>
                     &gt; Nintendo
                 </Link>
@@ -44,19 +45,19 @@ function HeaderButtonsPopup({setMoreButtonPopup}) {
                 </Link>
             </div>
             }
-            <div className="popup-separator"></div>
-            <div className='dropdown' onClick={() => {
+            <div className={styles.popupSeparator}></div>
+            <div onClick={() => {
                 setVideojuegos(!videojuegos)
             }}>
                 <Link to="/videojuegos" onClick={() => setMoreButtonPopup(false)}>Videojuegos</Link>
                 {videojuegos ?
-                <FontAwesomeIcon icon="fa-solid fa-angle-down" className='dropdown-button' />
+                <FontAwesomeIcon icon="fa-solid fa-angle-down" className={styles.dropdownButton} />
                 :
-                <FontAwesomeIcon icon="fa-solid fa-angle-up" className='dropdown-button' />
+                <FontAwesomeIcon icon="fa-solid fa-angle-up" className={styles.dropdownButton} />
                 }
             </div>
             {videojuegos &&
-            <div className='dropdown-content'>
+            <div className={styles.dropdownContent}>
                 <Link to="/nintendo/videojuegos" onClick={() => setMoreButtonPopup(false)}>
                     &gt; Nintendo
                 </Link>
@@ -83,27 +84,27 @@ function MainHeader({showRightButtons}) {
     }
 
     return (
-        <div id="header-main">
-            <Link id="header-logo" to="/">
-                <img src={Logo} />
+        <div className={styles.main}>
+            <Link to="/" className={styles.logo} >
+                <img src={Logo} className={styles.logoImg}  />
             </Link>
     
-            <div id="header-searcher">
-                <input type="text" placeholder="Buscar..." />
-                <button type="submit">
+            <div className="headerSearcher">
+                <input type="text" placeholder="Buscar..." className={styles.searcherInput}  />
+                <button type="submit"  className={styles.searcherButton} >
                     <FontAwesomeIcon icon="fa fa-search" />
                 </button>
             </div>
 
             {showRightButtons &&
-            <div id="header-right-buttons">
-                <div id="cart-button">
-                    <Link to="/carrito" id="cart-link">
-                        <FontAwesomeIcon icon="fa-solid fa-cart-shopping" id="cart-icon" />
+            <div className={styles.rightButtons}>
+                <div className={styles.cartButton}>
+                    <Link to="/carrito" className={styles.cartLink}>
+                        <FontAwesomeIcon icon="fa-solid fa-cart-shopping" className={styles.cartIcon} />
                         <span>({quantity})</span>
                     </Link>
                 </div>
-                <div id="header-login">
+                <div className={styles.login}>
                     <Link to="/iniciar-sesion">
                         Iniciar sesión
                     </Link>
@@ -114,8 +115,8 @@ function MainHeader({showRightButtons}) {
             </div>
             }
             
-            <div id="header-more-button">
-                <FontAwesomeIcon icon="fa-solid fa-grip-lines" id="more-button-icon" onClick={onMoreButtonClick} />
+            <div className={styles.moreButton}>
+                <FontAwesomeIcon icon="fa-solid fa-grip-lines" onClick={onMoreButtonClick} />
                 {moreButtonPopup &&
                 createPortal(<HeaderButtonsPopup setMoreButtonPopup={setMoreButtonPopup} />, document.getElementsByTagName("header")[0])
                 }
@@ -126,7 +127,7 @@ function MainHeader({showRightButtons}) {
 
 function Popup({ category }) {
     return (
-        <div className="header-button-popup">
+        <div className={styles.buttonPopup}>
             <Link to={"/" + category + "/consolas"}>Consolas</Link>
             <Link to={"/" + category + "/videojuegos"}>Videojuegos</Link>
         </div>
@@ -139,14 +140,14 @@ function HeaderButtons() {
     const [xboxPopup, setXboxPopup] = useState(false);
 
     return (
-        <div className="header-buttons-container">
-            <Link to="/ofertas" id="ofertas-button" className="header-button">
+        <div className={styles.headerButtonsContainer}>
+            <Link to="/ofertas" className={styles.headerButton}>
                 Ofertas
             </Link>
-            <Link to="/preventas" id="preventas-button" className="header-button">
+            <Link to="/preventas" className={styles.headerButton}>
                 Preventas
             </Link>
-            <div id="nintendo-button" className="header-button"
+            <div className={styles.headerButton}
                 onMouseEnter={() => {
                     setNintendoPopup(true);
                 }}
@@ -157,7 +158,7 @@ function HeaderButtons() {
                 Nintendo
                 {nintendoPopup && <Popup category={"nintendo"} />}
             </div>
-            <div id="playstation-button" className="header-button"
+            <div className={styles.headerButton}
                 onMouseEnter={() => {
                     setPlaystationPopup(true);
                 }}
@@ -168,7 +169,7 @@ function HeaderButtons() {
                 PlayStation
                 {playstationPopup && <Popup category={"playstation"} />}
             </div>
-            <div id="xbox-button" className="header-button"
+            <div className={styles.headerButton}
                 onMouseEnter={() => {
                     setXboxPopup(true);
                 }}
@@ -185,7 +186,7 @@ function HeaderButtons() {
 
 export function Header({showRightButtons=true}) {
     return (
-        <header>
+        <header className={styles.header}>
             <MainHeader showRightButtons={showRightButtons} />
             <HeaderButtons />
         </header>

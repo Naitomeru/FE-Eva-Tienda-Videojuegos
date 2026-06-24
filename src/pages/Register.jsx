@@ -1,45 +1,46 @@
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { Link } from 'react-router-dom'
+import styles from '../styles/Login.module.css'
 
 export function Register() {
     return (
-        <>
+        <div className={styles.page}>
             <Header showRightButtons={false} />
                 <main>
                     <div className="body-space"></div>
 
-                    <div id="login-form">
+                    <div className={styles.form}>
                         <form name="f-login" onSubmit={(e) => {
                             e.preventDefault();
                         }}>
                             <div>
-                                <label for="f-name">Nombre</label>
+                                <label htmlFor="f-name">Nombre</label>
                                 <input type="text" name="f-name" id="f-name" />
                             </div>
                             
                             <div>
-                                <label for="f-lastname">Apellido</label>
+                                <label htmlFor="f-lastname">Apellido</label>
                                 <input type="text" name="f-lastname" id="f-lastname" />
                             </div>
                             
                             <div>
-                                <label for="f-email">Correo electrónico</label>
+                                <label htmlFor="f-email">Correo electrónico</label>
                                 <input type="text" name="f-email" id="f-email" />
                             </div>
                             
                             <div>
-                                <label for="f-password">Contraseña</label>
+                                <label htmlFor="f-password">Contraseña</label>
                                 <input type="text" name="f-password" id="f-password" />
                             </div>
                             
                             <div>
-                                <label for="f-confirm-password">Confirmar contraseña</label>
+                                <label htmlFor="f-confirm-password">Confirmar contraseña</label>
                                 <input type="text" name="f-confirm-password" id="f-confirm-password" />
                             </div>
 
-                            <div className="center-button">
-                                <button id="register-button">
+                            <div className="centerButton">
+                                <button className={styles.button}>
                                     Crear cuenta
                                 </button>
                             </div>
@@ -52,6 +53,6 @@ export function Register() {
                     <div className="body-space"></div>
                 </main>
             <Footer />
-        </>
+        </div>
     )
 }

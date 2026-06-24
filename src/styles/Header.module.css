@@ -1,0 +1,331 @@
+.header {
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--primary-color-dark);
+}
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0px;
+}
+
+.logo {
+    background-color: var(--primary-color-light);
+    border-radius: 50px;
+
+    margin: 10px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logoImg {
+    max-width: 105px;
+    max-height: 50px;
+    width: auto;
+    height: auto;
+
+    padding: 0 10px;
+
+    border-radius: 50px;
+}
+
+:global(.headerSearcher) {
+    display: flex;
+
+    justify-content: center;
+}
+
+.searcherInput {
+    padding: 10px;
+    border: 0px;
+    font-size: 17px;
+
+    border-radius: 10px 0 0 10px;
+}
+
+.searcherButton {
+    float: right;
+    border: 0px;
+    padding: 10px 12px;
+    font-size: 17px;
+    cursor: pointer;
+
+    border-radius: 0 10px 10px 0;
+    background-color: var(--primary-color-light);
+}
+
+.searcherButton:hover {
+    background-color: var(--secondary-color-light);
+}
+
+.searcherButton:active {
+    background-color: var(--secondary-color);
+}
+
+.rightButtons {
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+}
+
+.cartButton {
+    margin-right: 10px;
+}
+
+.cartLink {
+    display: flex;
+    align-items: center;
+
+    color: var(--text-color);
+    background-color: var(--primary-color-light);
+    text-align: center;
+
+    border-style: none;
+    border-radius: 30px;
+
+    padding: 10px 15px;
+    margin: 5px 10px;
+
+    user-select: none;
+    text-decoration: none;
+}
+
+.cartIcon {
+    margin-right: 5px;
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+}
+
+.login, #admin-options {
+    margin-right: 2%;
+}
+
+.login a, #admin-options a {
+    color: var(--text-color);
+    background-color: var(--primary-color-light);
+    text-align: center;
+    font-weight: bold;
+    text-wrap-mode: nowrap;
+
+    border-style: none;
+    border-radius: 30px;
+
+    padding: 5px 15px;
+    margin: 5px 0;
+
+    user-select: none;
+    text-decoration: none;
+}
+
+.login a:hover, #admin-options a:hover, .cartButton a:hover {
+    cursor: pointer;
+    background-color: var(--secondary-color-light);
+}
+
+.login a:active, #admin-options a:active, .cartButton a:active {
+    background-color: var(--secondary-color);
+}
+
+.moreButton {
+    position: relative;
+    display: none;
+    height: 120%;
+    border-radius: 10px;
+    margin: 0 30px;
+    font-size: 60px;
+    justify-content: center;
+    align-items: center;
+}
+
+.moreButton:hover {
+    background-color: var(--primary-color-light);
+}
+
+.mainDropdown {
+    margin: 0;
+    background-color: var(--primary-color-light);
+    padding: 10px 20px;
+    z-index: 1;
+    display: none;
+    flex-direction: column;
+}
+
+.mainDropdown a {
+    user-select: none;
+    color: black;
+    text-decoration: none;
+}
+
+.mainDropdown .popupSeparator {
+    height: 2px;
+    background-color: var(--primary-color-dark);
+    border-radius: 2px;
+}
+
+.mainDropdown a, .mainDropdown div {
+    font-size: 20px;
+    margin: 5px 0;
+    color: var(--text-color);
+}
+
+.dropdownButton {
+    float: right;
+}
+
+.dropdownContent {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdownContent a {
+    font-size: 18px;
+    margin: 8px 0;
+}
+
+.headerButtonsContainer {
+    display: flex;
+    justify-content: center;
+
+    background-color: var(--primary-color);
+}
+
+.headerButton {
+    padding: 10px 20px;
+    user-select: none;
+    position: relative;
+    text-decoration: none;
+    color: black;
+
+    background-color: var(--primary-color);
+}
+
+.headerButton:hover {
+    cursor: pointer;
+
+    background-color: var(--primary-color-light);
+}
+
+.headerButton:active {
+    background-color: var(--primary-color-dark);
+}
+
+.buttonPopup {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background-color: var(--primary-color-light);
+    box-shadow: 0 1px 5px -2px black;
+    padding: 10px 20px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 0 0 20px 20px;
+}
+
+.buttonPopup a {
+    margin: 5px 0;
+    user-select: none;
+    color: black;
+    text-decoration: none;
+}
+
+.buttonPopup a:hover {
+    color: var(--text-color);
+    text-decoration: underline;
+}
+
+@media (max-width: 1000px) {
+    .main {
+        height: 100px;
+    }
+
+    .logo {
+        width: 200px;
+        height: 70px;
+        margin: 0 0 0 20px;
+    }
+
+    .searcherInput {
+        width: 55%;
+        font-size: x-large;
+    }
+
+    .searcherButton {
+        font-size: x-large;
+    }
+
+    .rightButtons {
+        margin-right: 20px;
+        justify-content: center;
+    }
+
+    .login a {
+        font-size: 20px;
+    }
+
+    .headerButton {
+        font-size: 20px;
+        padding: 10px 15px;
+    }
+
+    .cartButton {
+        height: 100%;
+    }
+
+    .cartLink {
+        padding: 15px;
+        margin-right: 0;
+        margin: 0;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 650px) {
+    .main {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        row-gap: 30px;
+        height: 100%;
+        margin: 20px 10px;
+    }
+
+    .logo {
+        grid-column: 1 / span 3;
+        place-self: center;
+        margin: 0;
+    }
+
+    :global(.headerSearcher) {
+        grid-column: 1 / span 2;
+        margin-left: 10px;
+    }
+
+    .searcherInput {
+        flex: 1;
+    }
+
+    .rightButtons {
+        display: none;
+    }
+
+    .moreButton {
+        display: flex;
+    }
+
+    .mainDropdown {
+        display: flex;
+    }
+
+    .headerButtonsContainer {
+        display: none;
+    }
+}
