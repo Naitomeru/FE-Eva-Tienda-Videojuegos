@@ -5,8 +5,8 @@ import styles from '../styles/Login.module.css'
 
 export function Login() {
     return (
-        <div className={styles.page}>
-            <Header showRightButtons={false} />
+        <>
+            <Header showRightButtons={false} isLogin={true} />
                 <main>
                     <div className="body-space"></div>
 
@@ -38,6 +38,6 @@ export function Login() {
                     <div className="body-space"></div>
                 </main>
             <Footer />
-        </div>
+        </>
     )
 }

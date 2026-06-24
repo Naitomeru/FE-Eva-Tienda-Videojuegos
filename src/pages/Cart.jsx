@@ -40,9 +40,8 @@ function CartItemBig({index, item, removeQuantity, addQuantity, removeItem}) {
                 <button onClick={() => addQuantity(item, index)}>+</button>
             </div>
             <div className={styles.price}>
-                <div style={item.item.discount &&
-                    {textDecoration:"line-through 2px"}
-                } className={styles.priceOriginal}>
+                <div style={item.item.discount ? {textDecoration:"line-through 2px"} : {}}
+                className={styles.priceOriginal}>
                     {priceToString(item.item.price * item.quantity)}
                 </div>
                 {item.item.discount &&
@@ -82,9 +81,8 @@ function CartItemSmall({index, item, removeQuantity, addQuantity, removeItem}) {
                     <button onClick={() => addQuantity(item, index)}>+</button>
                 </div>
                 <div className={styles.price}>
-                    <div style={item.item.discount &&
-                    {textDecoration:"line-through 2px"}
-                    } className={styles.priceOriginal}>
+                    <div style={item.item.discount ? {textDecoration:"line-through 2px"} : {}}
+                    className={styles.priceOriginal}>
                         {priceToString(item.item.price * item.quantity)}
                     </div>
                     {item.item.discount &&

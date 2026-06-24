@@ -8,6 +8,8 @@
     border-radius: 20px;
     margin: 20px;
     padding: 30px 20%;
+
+    align-self: center;
 }
 
 .form form div {
@@ -22,10 +24,6 @@
 
 .form form div input[type=text] {
     font-size: 15px;
-}
-
-.page :global(.headerSearcher) {
-    margin-right: 30px;
 }
 
 .form :global(.centerButton) {

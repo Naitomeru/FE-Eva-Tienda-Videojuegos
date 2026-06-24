@@ -73,7 +73,7 @@ function HeaderButtonsPopup({setMoreButtonPopup}) {
     )
 }
 
-function MainHeader({showRightButtons}) {
+function MainHeader({showRightButtons, isLogin}) {
     const cart = JSON.parse( localStorage.getItem(cartStorageName) ) || [];
     const quantity = cart.length;
 
@@ -89,7 +89,7 @@ function MainHeader({showRightButtons}) {
                 <img src={Logo} className={styles.logoImg}  />
             </Link>
     
-            <div className="headerSearcher">
+            <div style={isLogin ? {marginRight:"30px"} : {}} className="headerSearcher">
                 <input type="text" placeholder="Buscar..." className={styles.searcherInput}  />
                 <button type="submit"  className={styles.searcherButton} >
                     <FontAwesomeIcon icon="fa fa-search" />
@@ -184,10 +184,10 @@ function HeaderButtons() {
     )
 }
 
-export function Header({showRightButtons=true}) {
+export function Header({showRightButtons=true, isLogin=false}) {
     return (
         <header className={styles.header}>
-            <MainHeader showRightButtons={showRightButtons} />
+            <MainHeader showRightButtons={showRightButtons} isLogin={isLogin} />
             <HeaderButtons />
         </header>
     )

@@ -90,7 +90,8 @@ export function Details() {
                         <div className={styles.separator}></div>
 
                         <div className={styles.price}>
-                            <h2 style={current_item.discount && {textDecoration:"line-through 2px"}} className={styles.priceOriginal}>
+                            <h2 style={current_item.discount ? {textDecoration:"line-through 2px"} : {}}
+                            className={styles.priceOriginal}>
                                 {priceToString(current_item.price)}
                             </h2>
                             <h2 className={styles.priceDiscount}>
