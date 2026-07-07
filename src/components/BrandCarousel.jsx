@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom'
-import NintendoLogo from '../assets/logos/nintendo.png'
-import PlayStationLogo from '../assets/logos/playstation.png'
-import XboxLogo from '../assets/logos/xbox.png'
-import styles from '../styles/BrandCarousel.module.css'
+import { Link } from 'react-router-dom';
+import NintendoLogo from '../assets/logos/nintendo.png';
+import PlayStationLogo from '../assets/logos/playstation.png';
+import XboxLogo from '../assets/logos/xbox.png';
+import styles from '../styles/BrandCarousel.module.css';
 
 export function BrandCarousel() {
     const items = []

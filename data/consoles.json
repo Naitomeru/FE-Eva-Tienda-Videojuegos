@@ -1,0 +1,84 @@
+{
+    "consoles": [
+        {
+            "id": 1,
+            "title": "Nintendo Switch",
+            "category": "Nintendo",
+            "path_image": "/images/nintendo/consoles/switch.jpg",
+            "price": 289990,
+            "discount": 0.85
+        },
+        {
+            "id": 2,
+            "title": "Nintendo Switch OLED Neon Black",
+            "category": "Nintendo",
+            "path_image": "/images/nintendo/consoles/switch_oled_neon_black.jpg",
+            "price": 369990
+        },
+        {
+            "id": 3,
+            "title": "Nintendo Switch OLED Neon White",
+            "category": "Nintendo",
+            "path_image": "/images/nintendo/consoles/switch_oled_neon_white.jpg",
+            "price": 369990
+        },
+        {
+            "id": 4,
+            "title": "Nintendo Switch 2",
+            "category": "Nintendo",
+            "path_image": "/images/nintendo/consoles/switch_2.jpg",
+            "price": 599990
+        },
+        {
+            "id": 5,
+            "title": "Playstation 5 Slim",
+            "category": "Playstation",
+            "path_image": "/images/playstation/consoles/ps5_slim.jpeg",
+            "price": 649990,
+            "discount": 0.85
+        },
+        {
+            "id": 6,
+            "title": "Playstation 5 Slim Digital",
+            "category": "Playstation",
+            "path_image": "/images/playstation/consoles/ps5_slim_digital.jpg",
+            "price": 529990
+        },
+        {
+            "id": 7,
+            "title": "Playstation 5 Slim Digital - Astrobot",
+            "category": "Playstation",
+            "path_image": "/images/playstation/consoles/ps5_slim_digital_astrobot.jpeg",
+            "price": 569990
+        },
+        {
+            "id": 8,
+            "title": "Xbox One S",
+            "category": "Xbox",
+            "path_image": "/images/xbox/consoles/xbox_one_s.jpg",
+            "price": 529990
+        },
+        {
+            "id": 9,
+            "title": "Xbox One X",
+            "category": "Xbox",
+            "path_image": "/images/xbox/consoles/xbox_one_x.jpg",
+            "price": 579990,
+            "discount": 0.85
+        },
+        {
+            "id": 10,
+            "title": "Xbox Series S",
+            "category": "Xbox",
+            "path_image": "/images/xbox/consoles/xbox_series_s.jpg",
+            "price": 649990
+        },
+        {
+            "id": 11,
+            "title": "Xbox Series X",
+            "category": "Xbox",
+            "path_image": "/images/xbox/consoles/xbox_series_x.jpg",
+            "price": 699990
+        }
+    ]
+}

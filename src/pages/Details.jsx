@@ -1,11 +1,12 @@
-import { Header } from '../components/Header'
-import { Footer } from '../components/Footer'
-import { useParams } from 'react-router-dom'
-import { priceToString, priceWithSale } from '../util/util.jsx'
-import { cartStorageName, currentUserSession, db } from '../data/db.js';
+import { Header } from '../components/Header';
+import { Footer } from '../components/Footer';
+import { useParams } from 'react-router-dom';
+import { priceToString, priceWithSale } from '../util/util';
+import { cartStorageName, consolesFile, currentUserSession, videogamesFile } from '../util/constants';
 import { useState, useEffect } from 'react';
-import { BrandCarousel } from '../components/BrandCarousel.jsx';
+import { BrandCarousel } from '../components/BrandCarousel';
 import styles from '../styles/Details.module.css'
+import { loadData } from '../util/fetch';
 
 // Custom hook to manage localStorage
 const UseLocalStorage = (key, initialValue) => {
@@ -22,16 +23,41 @@ const UseLocalStorage = (key, initialValue) => {
 export function Details() {
     const { type, id } = useParams();
 
+    const user = JSON.parse(sessionStorage.getItem(currentUserSession)) || null;
+    const [cart, setCart] = user ? useState(user.cart) : UseLocalStorage(cartStorageName, []);
+    const [quantity, setQuantity] = useState(1);
+
+    const [isDataLoaded, setIsDataLoaded] = useState(false);
+    const [dbConsoles, setDbConsoles] = useState([]);
+    const [dbVideogames, setDbVideogames] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            let data = await loadData(consolesFile);
+            setDbConsoles(data.consoles);
+            data = await loadData(videogamesFile);
+            setDbVideogames(data.games);
+            setIsDataLoaded(true);
+        }
+        fetchData();
+    }, []);
+
+    if (!isDataLoaded) return null;
+
+    let collection = null;
+    if (type === "console") {
+        collection = dbConsoles;
+    } else {
+        collection = dbVideogames;
+    }
+
     let current_item;
-    const collection = type === "console" ? db.consoles : db.games;
     for (const item of collection) {
         if (item.id === parseInt(id)) {
             current_item = item;
             break;
         }
     }
-
-    const [quantity, setQuantity] = useState(1);
     
     function removeQuantity() {
         if (quantity > 1) setQuantity(quantity - 1);
@@ -40,9 +66,6 @@ export function Details() {
     function addQuantity() {
         if (quantity < 100) setQuantity(quantity + 1);
     }
-
-    const user = JSON.parse(sessionStorage.getItem(currentUserSession)) || null;
-    const [cart, setCart] = user ? useState(user.cart) : UseLocalStorage(cartStorageName, []);
     
     function updateCart() {
         if (user && user.admin) return;

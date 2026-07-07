@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { priceToString, priceWithSale } from '../util/util'
-import styles from '../styles/ItemCard.module.css'
+import { priceToString, priceWithSale } from '../util/util';
+import styles from '../styles/ItemCard.module.css';
 
 export function ItemCard({item, type}) {
     let label = null;

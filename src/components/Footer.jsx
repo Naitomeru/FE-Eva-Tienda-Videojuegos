@@ -1,7 +1,7 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Link } from 'react-router-dom'
-import Logo from '../assets/logo.png'
-import styles from '../styles/Footer.module.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
+import Logo from '../assets/logo.png';
+import styles from '../styles/Footer.module.css';
 
 export function Footer() {
     return (

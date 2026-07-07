@@ -1,11 +1,13 @@
-import { Header } from '../components/Header'
-import { Footer } from '../components/Footer'
-import { BrandCarousel } from '../components/BrandCarousel'
-import { ItemCard } from '../components/ItemCard.jsx'
-import { cartStorageName, db } from '../data/db.js'
-import HeroImg from '../assets/banner.jpg'
-import { Link } from 'react-router-dom'
-import styles from '../styles/Home.module.css'
+import { Header } from '../components/Header';
+import { Footer } from '../components/Footer';
+import { BrandCarousel } from '../components/BrandCarousel';
+import { ItemCard } from '../components/ItemCard';
+import { cartStorageName, videogamesFile } from '../util/constants';
+import HeroImg from '../assets/banner.jpg';
+import { Link } from 'react-router-dom';
+import styles from '../styles/Home.module.css';
+import { loadData } from '../util/fetch';
+import { useEffect, useState } from 'react';
 
 function Hero() {
     return (
@@ -56,7 +58,21 @@ export function Home() {
     const playstation_games = [];
     const xbox_games = [];
 
-    for (const game of db.games) {
+    const [isDataLoaded, setIsDataLoaded] = useState(false);
+    const [dbVideogames, setDbVideogames] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            let data = await loadData(videogamesFile);
+            setDbVideogames(data.games);
+            setIsDataLoaded(true);
+        }
+        fetchData();
+    }, []);
+
+    if (!isDataLoaded) return null;
+
+    for (const game of dbVideogames) {
         if (game.category.toLowerCase() === "nintendo") {
             nintendo_games.push(game);
         } else if (game.category.toLowerCase() === "playstation") {

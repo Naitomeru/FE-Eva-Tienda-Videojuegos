@@ -3,7 +3,7 @@ import { Footer } from '../components/Footer';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import styles from '../styles/Login.module.css';
 import { useState } from 'react';
-import { currentUserSession, usersStorageName } from '../data/db';
+import { currentUserSession, usersStorageName } from '../util/constants';
 
 export function Register() {
     const user = JSON.parse(sessionStorage.getItem(currentUserSession)) || null;

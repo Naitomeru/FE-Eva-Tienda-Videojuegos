@@ -1,11 +1,11 @@
-import { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Link, useNavigate } from 'react-router-dom'
-import Logo from '../assets/logo.png'
-import { cartStorageName, currentUserSession } from '../data/db'
-import { createPortal } from 'react-dom'
-import styles from '../styles/Header.module.css'
-import { saveUser } from '../util/session'
+import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link, useNavigate } from 'react-router-dom';
+import Logo from '../assets/logo.png';
+import { cartStorageName, currentUserSession } from '../util/constants';
+import { createPortal } from 'react-dom';
+import styles from '../styles/Header.module.css';
+import { saveUser } from '../util/session';
 
 function HeaderButtonsPopup({setMoreButtonPopup}) {
     const [consolas, setConsolas] = useState(false);
