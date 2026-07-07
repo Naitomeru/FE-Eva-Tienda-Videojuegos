@@ -26,17 +26,17 @@ export function Footer() {
                 
                 <section className={styles.footerSection}>
                     <h1>Categorías</h1>
-                    <Link to="/consolas">Consolas</Link>
-                    <Link to="/videojuegos">Videojuegos</Link>
-                    <Link to="/ofertas">Ofertas</Link>
-                    <Link to="/preventas">Preventa</Link>
+                    <Link to="/productos/consolas">Consolas</Link>
+                    <Link to="/productos/videojuegos">Videojuegos</Link>
+                    <Link to="/productos/ofertas">Ofertas</Link>
+                    <Link to="/productos/preventas">Preventa</Link>
                 </section>
 
                 <section className={styles.footerSection}>
                     <h1>Marcas</h1>
-                    <Link to="/nintendo">Nintendo</Link>
-                    <Link to="/playstation">PlayStation</Link>
-                    <Link to="/xbox">Xbox</Link>
+                    <Link to="/productos/nintendo">Nintendo</Link>
+                    <Link to="/productos/playstation">PlayStation</Link>
+                    <Link to="/productos/xbox">Xbox</Link>
                 </section>
             </div>
             

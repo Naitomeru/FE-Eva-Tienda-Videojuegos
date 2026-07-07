@@ -33,9 +33,8 @@
     border-radius: 50px;
 }
 
-:global(.headerSearcher) {
+.headerSearcher {
     display: flex;
-
     justify-content: center;
 }
 
@@ -43,6 +42,7 @@
     padding: 10px;
     border: 0px;
     font-size: 17px;
+    width: 55%;
 
     border-radius: 10px 0 0 10px;
 }
@@ -103,16 +103,23 @@
     flex-direction: column;
 }
 
-.login, #admin-options {
-    margin-right: 2%;
+.userName {
+    color: var(--text-color);
+    font-weight: bold;
+    margin-right: 20px;
 }
 
-.login a, #admin-options a {
+.userIcon {
+    align-self: center;
+}
+
+.login a, .login button {
     color: var(--text-color);
     background-color: var(--primary-color-light);
     text-align: center;
     font-weight: bold;
     text-wrap-mode: nowrap;
+    font-size: 15px;
 
     border-style: none;
     border-radius: 30px;
@@ -124,12 +131,12 @@
     text-decoration: none;
 }
 
-.login a:hover, #admin-options a:hover, .cartButton a:hover {
+.login a:hover, .login button:hover, .cartButton a:hover {
     cursor: pointer;
     background-color: var(--secondary-color-light);
 }
 
-.login a:active, #admin-options a:active, .cartButton a:active {
+.login a:active, .login button:active, .cartButton a:active {
     background-color: var(--secondary-color);
 }
 
@@ -255,7 +262,6 @@
     }
 
     .searcherInput {
-        width: 55%;
         font-size: x-large;
     }
 
@@ -268,7 +274,7 @@
         justify-content: center;
     }
 
-    .login a {
+    .login a, .login button {
         font-size: 20px;
     }
 
@@ -304,13 +310,9 @@
         margin: 0;
     }
 
-    :global(.headerSearcher) {
+    .headerSearcher {
         grid-column: 1 / span 2;
         margin-left: 10px;
-    }
-
-    .searcherInput {
-        flex: 1;
     }
 
     .rightButtons {
@@ -319,6 +321,7 @@
 
     .moreButton {
         display: flex;
+        margin: 0;
     }
 
     .mainDropdown {

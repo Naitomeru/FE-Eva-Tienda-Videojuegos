@@ -12,18 +12,35 @@
     align-self: center;
 }
 
+.success {
+    color: var(--important-color);
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+.form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
 .form form div {
     display: flex;
     flex-direction: column;
-    margin: 20px;
+    margin: 10px 0;
 }
 
 .form form div label {
     margin-bottom: 3px;
 }
 
-.form form div input[type=text] {
+.form input[type=text], .form input[type=password], .form input[type=email] {
     font-size: 15px;
+    width: 190px;
 }
 
 .form :global(.centerButton) {
@@ -81,5 +98,9 @@
 
     .form > div a {
         margin-top: 10px;
+    }
+
+    label, .form input[type=text], .form input[type=password], .form input[type=email], .form > div, .form :global(.centerButton) button, .error {
+        font-size: 20px;
     }
 }

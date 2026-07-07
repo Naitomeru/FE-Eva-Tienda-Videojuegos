@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Logo from '../assets/logo.png'
-import { cartStorageName } from '../data/db'
+import { cartStorageName, currentUserSession } from '../data/db'
 import { createPortal } from 'react-dom'
 import styles from '../styles/Header.module.css'
+import { saveUser } from '../util/session'
 
 function HeaderButtonsPopup({setMoreButtonPopup}) {
     const [consolas, setConsolas] = useState(false);
@@ -18,14 +19,14 @@ function HeaderButtonsPopup({setMoreButtonPopup}) {
             <div className={styles.popupSeparator}></div>
             <Link to="/registrarse">Registrarse</Link>
             <div className={styles.popupSeparator}></div>
-            <Link to="/ofertas" onClick={() => setMoreButtonPopup(false)}>Ofertas</Link>
+            <Link to="/productos/ofertas" onClick={() => setMoreButtonPopup(false)}>Ofertas</Link>
             <div className={styles.popupSeparator}></div>
-            <Link to="/preventas" onClick={() => setMoreButtonPopup(false)}>Preventas</Link>
+            <Link to="/productos/preventas" onClick={() => setMoreButtonPopup(false)}>Preventas</Link>
             <div className={styles.popupSeparator}></div>
             <div onClick={() => {
                 setConsolas(!consolas)
             }}>
-                <Link to="/consolas" onClick={() => setMoreButtonPopup(false)}>Consolas</Link>
+                <Link to="/productos/consolas" onClick={() => setMoreButtonPopup(false)}>Consolas</Link>
                 {consolas ?
                 <FontAwesomeIcon icon="fa-solid fa-angle-down" className={styles.dropdownButton} />
                 :
@@ -34,13 +35,13 @@ function HeaderButtonsPopup({setMoreButtonPopup}) {
             </div>
             {consolas &&
             <div className={styles.dropdownContent}>
-                <Link to="/nintendo/consolas" onClick={() => setMoreButtonPopup(false)}>
+                <Link to="/productos/nintendo/consolas" onClick={() => setMoreButtonPopup(false)}>
                     &gt; Nintendo
                 </Link>
-                <Link to="/playstation/consolas" onClick={() => setMoreButtonPopup(false)}>
+                <Link to="/productos/playstation/consolas" onClick={() => setMoreButtonPopup(false)}>
                     &gt; PlayStation
                 </Link>
-                <Link to="/xbox/consolas" onClick={() => setMoreButtonPopup(false)}>
+                <Link to="/productos/xbox/consolas" onClick={() => setMoreButtonPopup(false)}>
                     &gt; XBOX
                 </Link>
             </div>
@@ -49,7 +50,7 @@ function HeaderButtonsPopup({setMoreButtonPopup}) {
             <div onClick={() => {
                 setVideojuegos(!videojuegos)
             }}>
-                <Link to="/videojuegos" onClick={() => setMoreButtonPopup(false)}>Videojuegos</Link>
+                <Link to="/productos/videojuegos" onClick={() => setMoreButtonPopup(false)}>Videojuegos</Link>
                 {videojuegos ?
                 <FontAwesomeIcon icon="fa-solid fa-angle-down" className={styles.dropdownButton} />
                 :
@@ -58,13 +59,13 @@ function HeaderButtonsPopup({setMoreButtonPopup}) {
             </div>
             {videojuegos &&
             <div className={styles.dropdownContent}>
-                <Link to="/nintendo/videojuegos" onClick={() => setMoreButtonPopup(false)}>
+                <Link to="/productos/nintendo/videojuegos" onClick={() => setMoreButtonPopup(false)}>
                     &gt; Nintendo
                 </Link>
-                <Link to="/playstation/videojuegos" onClick={() => setMoreButtonPopup(false)}>
+                <Link to="/productos/playstation/videojuegos" onClick={() => setMoreButtonPopup(false)}>
                     &gt; PlayStation
                 </Link>
-                <Link to="/xbox/videojuegos" onClick={() => setMoreButtonPopup(false)}>
+                <Link to="/productos/xbox/videojuegos" onClick={() => setMoreButtonPopup(false)}>
                     &gt; XBOX
                 </Link>
             </div>
@@ -74,6 +75,10 @@ function HeaderButtonsPopup({setMoreButtonPopup}) {
 }
 
 function MainHeader({showRightButtons, isLogin}) {
+    const user = JSON.parse(sessionStorage.getItem(currentUserSession)) || null;
+
+    const navigate = useNavigate();
+
     const cart = JSON.parse( localStorage.getItem(cartStorageName) ) || [];
     const quantity = cart.length;
 
@@ -83,37 +88,78 @@ function MainHeader({showRightButtons, isLogin}) {
         setMoreButtonPopup(!moreButtonPopup);
     }
 
+    function closeSession() {
+        if (!user.admin) {
+            saveUser(user);
+        }
+        sessionStorage.removeItem(currentUserSession);
+        navigate("/");
+    }
+
+    const rightButtons = user == null ?
+    (
+        <div className={styles.rightButtons}>
+            <div className={styles.cartButton}>
+                <Link to="/carrito" className={styles.cartLink}>
+                    <FontAwesomeIcon icon="fa-solid fa-cart-shopping" className={styles.cartIcon} />
+                    <span>({quantity})</span>
+                </Link>
+            </div>
+            <div className={styles.login}>
+                <Link to="/iniciar-sesion">
+                    Iniciar sesión
+                </Link>
+                <Link to="/registrarse">
+                    Registrarse
+                </Link>
+            </div>
+        </div>
+    ) :
+    (
+        <div className={styles.rightButtons}>
+            {user.admin ?
+            <>
+                <div className={styles.userName}>ADMIN</div>
+                <div className={styles.login}>
+                    <Link>Opciones</Link>
+                    <button onClick={closeSession}>
+                        Cerrar sesión
+                    </button>
+                </div>
+            </>
+            :
+            <>
+                <div className={styles.cartButton}>
+                    <Link to="/carrito" className={styles.cartLink}>
+                        <FontAwesomeIcon icon="fa-solid fa-cart-shopping" className={styles.cartIcon} />
+                        <span>({user.cart.length})</span>
+                    </Link>
+                </div>
+                <div className={styles.login}>
+                    <FontAwesomeIcon icon="fa-solid fa-circle-user" size='2x' className={styles.userIcon} />
+                    <button onClick={closeSession}>
+                        Cerrar sesión
+                    </button>
+                </div>
+            </>
+            }
+        </div>
+    )
+
     return (
         <div className={styles.main}>
             <Link to="/" className={styles.logo} >
                 <img src={Logo} className={styles.logoImg}  />
             </Link>
     
-            <div style={isLogin ? {marginRight:"30px"} : {}} className="headerSearcher">
+            <div className={styles.headerSearcher}>
                 <input type="text" placeholder="Buscar..." className={styles.searcherInput}  />
                 <button type="submit"  className={styles.searcherButton} >
                     <FontAwesomeIcon icon="fa fa-search" />
                 </button>
             </div>
 
-            {showRightButtons &&
-            <div className={styles.rightButtons}>
-                <div className={styles.cartButton}>
-                    <Link to="/carrito" className={styles.cartLink}>
-                        <FontAwesomeIcon icon="fa-solid fa-cart-shopping" className={styles.cartIcon} />
-                        <span>({quantity})</span>
-                    </Link>
-                </div>
-                <div className={styles.login}>
-                    <Link to="/iniciar-sesion">
-                        Iniciar sesión
-                    </Link>
-                    <Link to="/registrarse">
-                        Registrarse
-                    </Link>
-                </div>
-            </div>
-            }
+            {showRightButtons && rightButtons}
             
             <div className={styles.moreButton}>
                 <FontAwesomeIcon icon="fa-solid fa-grip-lines" onClick={onMoreButtonClick} />
@@ -128,8 +174,8 @@ function MainHeader({showRightButtons, isLogin}) {
 function Popup({ category }) {
     return (
         <div className={styles.buttonPopup}>
-            <Link to={"/" + category + "/consolas"}>Consolas</Link>
-            <Link to={"/" + category + "/videojuegos"}>Videojuegos</Link>
+            <Link to={"/productos/" + category + "/consolas"}>Consolas</Link>
+            <Link to={"/productos/" + category + "/videojuegos"}>Videojuegos</Link>
         </div>
     )
 }
@@ -141,10 +187,10 @@ function HeaderButtons() {
 
     return (
         <div className={styles.headerButtonsContainer}>
-            <Link to="/ofertas" className={styles.headerButton}>
+            <Link to="/productos/ofertas" className={styles.headerButton}>
                 Ofertas
             </Link>
-            <Link to="/preventas" className={styles.headerButton}>
+            <Link to="/productos/preventas" className={styles.headerButton}>
                 Preventas
             </Link>
             <div className={styles.headerButton}

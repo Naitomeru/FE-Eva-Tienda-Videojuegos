@@ -9,17 +9,17 @@ export function BrandCarousel() {
 
     for (let i = 0; i < 4; i++) {
         items.push(
-            <Link key={"n" + i} to="/nintendo" className={styles.brandItem}>
+            <Link key={"n" + i} to="/productos/nintendo" className={styles.brandItem}>
                 <img src={NintendoLogo} alt="Nintendo" />
             </Link>
         )
         items.push(
-            <Link key={"p" + i} to="/playstation" className={styles.brandItem}>
+            <Link key={"p" + i} to="/productos/playstation" className={styles.brandItem}>
                 <img src={PlayStationLogo} alt="PlayStation" />
             </Link>
         )
         items.push(
-            <Link key={"x" + i} to="/xbox" className={styles.brandItem}>
+            <Link key={"x" + i} to="/productos/xbox" className={styles.brandItem}>
                 <img src={XboxLogo} alt="Xbox" />
             </Link>
         )

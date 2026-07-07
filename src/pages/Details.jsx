@@ -1,8 +1,8 @@
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { useParams } from 'react-router-dom'
-import { priceToString, priceWithSale } from '../util.jsx'
-import { cartStorageName, db } from '../data/db.js';
+import { priceToString, priceWithSale } from '../util/util.jsx'
+import { cartStorageName, currentUserSession, db } from '../data/db.js';
 import { useState, useEffect } from 'react';
 import { BrandCarousel } from '../components/BrandCarousel.jsx';
 import styles from '../styles/Details.module.css'
@@ -41,28 +41,55 @@ export function Details() {
         if (quantity < 100) setQuantity(quantity + 1);
     }
 
-    const [cart, setCart] = UseLocalStorage(cartStorageName, []);
+    const user = JSON.parse(sessionStorage.getItem(currentUserSession)) || null;
+    const [cart, setCart] = user ? useState(user.cart) : UseLocalStorage(cartStorageName, []);
     
     function updateCart() {
-        const new_cart = [...cart];
-        let exists = false;
-        for (const item_in_cart of new_cart) {
-            if (item_in_cart.id === current_item.id && item_in_cart.type === type) {
-                item_in_cart.quantity += quantity;
-                exists = true;
-                break;
-            }
-        }
+        if (user && user.admin) return;
 
-        if (!exists) {
-            const product = {
-                "id": current_item.id,
-                "type": type,
-                "quantity": quantity
-            };
-            new_cart.push(product);
+        let new_cart = null;
+        if (user) {
+            const newInfo = {...user};
+            let exists = false;
+            for (const item_in_cart of newInfo.cart) {
+                if (item_in_cart.id === current_item.id && item_in_cart.type === type) {
+                    item_in_cart.quantity += quantity;
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (!exists) {
+                const product = {
+                    "id": current_item.id,
+                    "type": type,
+                    "quantity": quantity
+                };
+                newInfo.cart.push(product);
+            }
+            sessionStorage.setItem(currentUserSession, JSON.stringify(newInfo));
+            new_cart = [...newInfo.cart];
+        } else {
+            new_cart = [...cart];
+            let exists = false;
+            for (const item_in_cart of new_cart) {
+                if (item_in_cart.id === current_item.id && item_in_cart.type === type) {
+                    item_in_cart.quantity += quantity;
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (!exists) {
+                const product = {
+                    "id": current_item.id,
+                    "type": type,
+                    "quantity": quantity
+                };
+                new_cart.push(product);
+            }
+            localStorage.setItem(cartStorageName, JSON.stringify(new_cart));
         }
-        localStorage.setItem(cartStorageName, JSON.stringify(new_cart));
         setCart(new_cart);
     }
 

@@ -16,7 +16,7 @@ function Hero() {
                 <p>
                     Encuentra las mejores ofertas en Nintendo, PlayStation y Xbox.
                 </p>
-                <Link to="/ofertas">
+                <Link to="/productos/ofertas">
                     <button>
                         Ver ofertas
                     </button>
@@ -41,7 +41,7 @@ function Section({title, games}) {
                 {items.map((game) => <ItemCard key={game.id} item={game} type="videogame" />)}
             </div>
             <div className="centerButton">
-                <Link to={"/" + title.toLowerCase()}>
+                <Link to={"/productos/" + title.toLowerCase()}>
                     <button className={styles.moreButton}>
                         Ver más
                     </button>

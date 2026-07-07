@@ -1,10 +1,11 @@
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
-import { priceToString, priceWithSale } from "../util";
-import { cartStorageName, db } from "../data/db";
+import { priceToString, priceWithSale } from "../util/util";
+import { cartStorageName, currentUserSession, db, usersStorageName } from "../data/db";
 import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from '../styles/Cart.module.css'
+import { Navigate } from "react-router-dom";
 
 // Custom hook to manage localStorage
 const UseLocalStorage = (key, initialValue) => {
@@ -97,10 +98,21 @@ function CartItemSmall({index, item, removeQuantity, addQuantity, removeItem}) {
 }
 
 export function Cart() {
-    const [cart, setCart] = UseLocalStorage(cartStorageName, []);
+    const user = JSON.parse(sessionStorage.getItem(currentUserSession)) || null;
+    if (user && user.admin) {
+        return <Navigate to="/" />;
+    }
+
+    const [cart, setCart] = user ? useState(user.cart) : UseLocalStorage(cartStorageName, []);
 
     function deleteCart() {
-        localStorage.setItem(cartStorageName, JSON.stringify([]));
+        if (user) {
+            const newInfo = {...user};
+            newInfo.cart = [];
+            sessionStorage.setItem(currentUserSession, JSON.stringify(newInfo));
+        } else {
+            localStorage.setItem(cartStorageName, JSON.stringify([]));
+        }
         setCart([]);
     }
 
@@ -133,9 +145,17 @@ export function Cart() {
     function removeQuantity(item, index) {
         if (item.quantity > 1) {
             item.quantity = item.quantity - 1;
-            const new_cart = [...cart];
-            new_cart[index].quantity = item.quantity;
-            localStorage.setItem(cartStorageName, JSON.stringify(new_cart));
+            let new_cart = null;
+            if (user) {
+                const newInfo = {...user};
+                newInfo.cart[index].quantity = item.quantity;
+                sessionStorage.setItem(currentUserSession, JSON.stringify(newInfo));
+                new_cart = [...newInfo.cart];
+            } else {
+                new_cart = [...cart];
+                new_cart[index].quantity = item.quantity;
+                localStorage.setItem(cartStorageName, JSON.stringify(new_cart));
+            }
             setCart(new_cart);
         }
     }
@@ -143,17 +163,33 @@ export function Cart() {
     function addQuantity(item, index) {
         if (item.quantity < 100) {
             item.quantity = item.quantity + 1;
-            const new_cart = [...cart];
-            new_cart[index].quantity = item.quantity;
-            localStorage.setItem(cartStorageName, JSON.stringify(new_cart));
+            let new_cart = null;
+            if (user) {
+                const newInfo = {...user};
+                newInfo.cart[index].quantity = item.quantity;
+                sessionStorage.setItem(currentUserSession, JSON.stringify(newInfo));
+                new_cart = [...newInfo.cart];
+            } else {
+                new_cart = [...cart];
+                new_cart[index].quantity = item.quantity;
+                localStorage.setItem(cartStorageName, JSON.stringify(new_cart));
+            }
             setCart(new_cart);
         }
     }
 
     function removeItem(index) {
-        const new_cart = [...cart];
-        new_cart.splice(index, 1);
-        localStorage.setItem(cartStorageName, JSON.stringify(new_cart));
+        let new_cart = null;
+        if (user) {
+            const newInfo = {...user};
+            newInfo.cart.splice(index, 1);
+            sessionStorage.setItem(currentUserSession, JSON.stringify(newInfo));
+            new_cart = [...newInfo.cart];
+        } else {
+            new_cart = [...cart];
+            new_cart.splice(index, 1);
+            localStorage.setItem(cartStorageName, JSON.stringify(new_cart));
+        }
         setCart(new_cart);
     }
 
