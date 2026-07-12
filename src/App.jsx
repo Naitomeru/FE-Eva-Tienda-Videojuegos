@@ -7,6 +7,8 @@ import { Details } from "./pages/Details";
 import { Cart } from "./pages/Cart";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
+import { Admin } from "./pages/Admin";
+import { AdminForm } from "./pages/AdminForm";
 
 /* import all the icons in Free Solid, Free Regular, and Brands styles */
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -41,6 +43,9 @@ function App() {
             <Route path="/iniciar-sesion" element={<Login />} />
             <Route path="/registrarse" element={<Register />} />
             <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/form" element={<AdminForm />} />
+            <Route path="/admin/form/:tipo/:id" element={<AdminForm />}/>
         </Routes>
     )
 }
