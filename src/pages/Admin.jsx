@@ -1,50 +1,34 @@
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
-import { BrandCarousel } from "../components/BrandCarousel";
 import { AdminItem } from "../components/AdminItem";
 import styles from "../styles/Admin.module.css";
-import { useEffect, useState } from "react";
-import { loadData } from "../util/fetch";
-import { consolesFile, videogamesFile } from "../util/constants";
-import { useNavigate } from "react-router-dom";
+import { currentUserSession, dbStorageName } from "../util/constants";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export function Admin() {
-    const [productos, setProductos] = useState([]);
-    const [isDataLoaded, setIsDataLoaded] = useState(false);
+    const user = JSON.parse(sessionStorage.getItem(currentUserSession)) || null;
+    if (!user || !user.admin) {
+        return <Navigate to="/" />;
+    }
+
+    const db = JSON.parse(localStorage.getItem(dbStorageName));
+
+    const consolas = db.consoles.map(item => ({
+        ...item,
+        tipo: "Consola"
+    }));
+
+    const juegos = db.videogames.map(item => ({
+        ...item,
+        tipo: "Videojuego"
+    }));
+
+    const productos = [...consolas, ...juegos];
     const navigate = useNavigate();
 
-    useEffect(() => {
-
-        async function fetchData() {
-
-            let data = await loadData(consolesFile);
-
-            const consolas = data.consoles.map(item => ({
-                ...item,
-                tipo: "Consola"
-            }));
-
-            data = await loadData(videogamesFile);
-
-            const juegos = data.games.map(item => ({
-                ...item,
-                tipo: "Videojuego"
-            }));
-
-            setProductos([...consolas, ...juegos]);
-
-            setIsDataLoaded(true);
-
-        }
-
-        fetchData();
-
-    }, []);
-
-    if (!isDataLoaded) return null;
     return (
         <>
-            <Header />
+            <Header isInAdminPage={true} />
             <main className={styles.main}>
 
                 <div className={styles.container}>
@@ -77,7 +61,6 @@ export function Admin() {
 
             </main>
 
-            <BrandCarousel />
             <Footer />
         </>
     );

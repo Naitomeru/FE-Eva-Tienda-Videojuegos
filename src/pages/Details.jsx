@@ -2,11 +2,10 @@ import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { useParams } from 'react-router-dom';
 import { priceToString, priceWithSale } from '../util/util';
-import { cartStorageName, consolesFile, currentUserSession, videogamesFile } from '../util/constants';
-import { useState, useEffect } from 'react';
+import { cartStorageName, currentUserSession, dbStorageName } from '../util/constants';
+import { useState } from 'react';
 import { BrandCarousel } from '../components/BrandCarousel';
 import styles from '../styles/Details.module.css'
-import { loadData } from '../util/fetch';
 
 // Custom hook to manage localStorage
 const UseLocalStorage = (key, initialValue) => {
@@ -23,32 +22,16 @@ const UseLocalStorage = (key, initialValue) => {
 export function Details() {
     const { type, id } = useParams();
 
+    const db = JSON.parse(localStorage.getItem(dbStorageName));
     const user = JSON.parse(sessionStorage.getItem(currentUserSession)) || null;
     const [cart, setCart] = user ? useState(user.cart) : UseLocalStorage(cartStorageName, []);
     const [quantity, setQuantity] = useState(1);
 
-    const [isDataLoaded, setIsDataLoaded] = useState(false);
-    const [dbConsoles, setDbConsoles] = useState([]);
-    const [dbVideogames, setDbVideogames] = useState([]);
-
-    useEffect(() => {
-        async function fetchData() {
-            let data = await loadData(consolesFile);
-            setDbConsoles(data.consoles);
-            data = await loadData(videogamesFile);
-            setDbVideogames(data.games);
-            setIsDataLoaded(true);
-        }
-        fetchData();
-    }, []);
-
-    if (!isDataLoaded) return null;
-
     let collection = null;
     if (type === "console") {
-        collection = dbConsoles;
+        collection = db.consoles;
     } else {
-        collection = dbVideogames;
+        collection = db.videogames;
     }
 
     let current_item;

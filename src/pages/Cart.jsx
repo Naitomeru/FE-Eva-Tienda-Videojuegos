@@ -1,12 +1,11 @@
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { priceToString, priceWithSale } from "../util/util";
-import { cartStorageName, consolesFile, currentUserSession, usersStorageName, videogamesFile } from "../util/constants";
-import { useState, useEffect } from "react";
+import { cartStorageName, currentUserSession, dbStorageName } from "../util/constants";
+import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from '../styles/Cart.module.css'
 import { Navigate } from "react-router-dom";
-import { loadData } from '../util/fetch';
 
 // Custom hook to manage localStorage
 const UseLocalStorage = (key, initialValue) => {
@@ -104,24 +103,8 @@ export function Cart() {
         return <Navigate to="/" />;
     }
 
+    const db = JSON.parse(localStorage.getItem(dbStorageName));
     const [cart, setCart] = user ? useState(user.cart) : UseLocalStorage(cartStorageName, []);
-
-    const [isDataLoaded, setIsDataLoaded] = useState(false);
-    const [dbConsoles, setDbConsoles] = useState([]);
-    const [dbVideogames, setDbVideogames] = useState([]);
-
-    useEffect(() => {
-        async function fetchData() {
-            let data = await loadData(consolesFile);
-            setDbConsoles(data.consoles);
-            data = await loadData(videogamesFile);
-            setDbVideogames(data.games);
-            setIsDataLoaded(true);
-        }
-        fetchData();
-    }, []);
-
-    if (!isDataLoaded) return null;
 
     function deleteCart() {
         if (user) {
@@ -135,7 +118,7 @@ export function Cart() {
     }
 
     function getItem(item_in_cart) {
-        const collection = item_in_cart.type === "console" ? dbConsoles : dbVideogames;
+        const collection = item_in_cart.type === "console" ? db.consoles : db.videogames;
 
         for (const item of collection) {
             if (item.id == item_in_cart.id) {

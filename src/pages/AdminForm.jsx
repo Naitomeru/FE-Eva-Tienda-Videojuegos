@@ -1,65 +1,41 @@
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
-import { BrandCarousel } from "../components/BrandCarousel";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import styles from "../styles/Admin.module.css";
-import { useEffect, useState } from "react";
-import { loadData } from "../util/fetch";
-import { consolesFile, videogamesFile } from "../util/constants";
+import { useState } from "react";
+import { currentUserSession, dbStorageName } from "../util/constants";
 
 export function AdminForm() {
+    const user = JSON.parse(sessionStorage.getItem(currentUserSession)) || null;
+    if (!user || !user.admin) {
+        return <Navigate to="/" />;
+    }
 
     const { tipo, id } = useParams();
-    const navigate = useNavigate();
-    const editando = id !== undefined;
-    const [producto, setProducto] = useState(null);
     const [tipoProducto, setTipoProducto] = useState(
         tipo === "videojuego" ? "Videojuego" : "Consola"
     );
+    const navigate = useNavigate();
 
-    useEffect(() => {
+    const db = JSON.parse(localStorage.getItem(dbStorageName));
 
-        if (!editando) return;
-
-        async function cargarProducto() {
-
-            let data;
-
-            if (tipo === "consola") {
-
-                data = await loadData(consolesFile);
-
-                const encontrado = data.consoles.find(
-                    item => item.id === Number(id)
-                );
-
-                setProducto(encontrado);
-
-                setTipoProducto("Consola");
-
-            } else {
-
-                data = await loadData(videogamesFile);
-
-                const encontrado = data.games.find(
-                    item => item.id === Number(id)
-                );
-
-                setProducto(encontrado);
-
-                setTipoProducto("Videojuego");
-
-            }
-
+    let producto = null;
+    const editando = id !== undefined;
+    if (editando) {
+        if (tipo === "consola") {
+            producto = db.consoles.find(
+                item => item.id === Number(id)
+            );
+        } else {
+            producto = db.videogames.find(
+                item => item.id === Number(id)
+            );
         }
-
-        cargarProducto();
-
-    }, [id, tipo]);
+    }
 
     return (
         <>
-            <Header />
+            <Header isInAdminPage={true} />
 
             <main className={styles.main}>
 
@@ -191,8 +167,6 @@ export function AdminForm() {
                 </div>
 
             </main>
-
-            <BrandCarousel />
 
             <Footer />
 

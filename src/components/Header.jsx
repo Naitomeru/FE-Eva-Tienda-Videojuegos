@@ -83,7 +83,7 @@ function HeaderButtonsPopup({setMoreButtonPopup, user, closeSession}) {
     )
 }
 
-function MainHeader({showRightButtons, isLogin}) {
+function MainHeader({showRightButtons, isLogin, isInAdminPage}) {
     const user = JSON.parse(sessionStorage.getItem(currentUserSession)) || null;
 
     const navigate = useNavigate();
@@ -130,7 +130,9 @@ function MainHeader({showRightButtons, isLogin}) {
             <>
                 <div className={styles.userName}>ADMIN</div>
                 <div className={styles.login}>
-                    <Link>Opciones</Link>
+                    {!isInAdminPage &&
+                    <Link to="/admin">Opciones</Link>
+                    }
                     <button onClick={closeSession}>
                         Cerrar sesión
                     </button>
@@ -160,13 +162,15 @@ function MainHeader({showRightButtons, isLogin}) {
             <Link to="/" className={styles.logo} >
                 <img src={Logo} className={styles.logoImg}  />
             </Link>
-    
+
+            {!isInAdminPage &&
             <div className={styles.headerSearcher}>
                 <input type="text" placeholder="Buscar..." className={styles.searcherInput}  />
                 <button type="submit"  className={styles.searcherButton} >
                     <FontAwesomeIcon icon="fa fa-search" />
                 </button>
             </div>
+            }
 
             {showRightButtons && rightButtons}
             
@@ -246,11 +250,13 @@ function HeaderButtons() {
     )
 }
 
-export function Header({showRightButtons=true, isLogin=false}) {
+export function Header({showRightButtons=true, isLogin=false, isInAdminPage=false}) {
     return (
         <header className={styles.header}>
-            <MainHeader showRightButtons={showRightButtons} isLogin={isLogin} />
+            <MainHeader showRightButtons={showRightButtons} isLogin={isLogin} isInAdminPage={isInAdminPage} />
+            {!isInAdminPage &&
             <HeaderButtons />
+            }
         </header>
     )
 }
