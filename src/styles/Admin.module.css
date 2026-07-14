@@ -203,7 +203,7 @@
     justify-content: start;
 }
 
-.checks label {
+.checks > label {
     display: block;
     align-self: flex-start;
 }

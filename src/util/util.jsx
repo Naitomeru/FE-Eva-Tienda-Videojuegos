@@ -11,16 +11,20 @@ export function priceToString(price) {
 
     let price_text = "$";
 
-    if (modulo != 0) {
-        price_text = price_text.concat(price_number.substring(0, modulo));
-        price_text = price_text.concat(".");
-    }
-
-    const iterations = (total_digits - modulo) / 3
-    for (let i = 0; i < iterations; i++) {
-        price_text = price_text.concat(price_number.substring(modulo + i * 3, modulo + i * 3 + 3));
-        if (i < iterations - 1) {
+    if (total_digits < 3) {
+        price_text = price_text.concat(price_number);
+    } else {
+        if (modulo != 0) {
+            price_text = price_text.concat(price_number.substring(0, modulo));
             price_text = price_text.concat(".");
+        }
+
+        const iterations = (total_digits - modulo) / 3
+        for (let i = 0; i < iterations; i++) {
+            price_text = price_text.concat(price_number.substring(modulo + i * 3, modulo + i * 3 + 3));
+            if (i < iterations - 1) {
+                price_text = price_text.concat(".");
+            }
         }
     }
     price_text = price_text.concat(" CLP");
