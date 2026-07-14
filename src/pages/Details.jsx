@@ -1,23 +1,12 @@
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { priceToString, priceWithSale } from '../util/util';
 import { cartStorageName, currentUserSession, dbStorageName } from '../util/constants';
 import { useState } from 'react';
 import { BrandCarousel } from '../components/BrandCarousel';
 import styles from '../styles/Details.module.css'
-
-// Custom hook to manage localStorage
-const UseLocalStorage = (key, initialValue) => {
-    const [value, setValue] = useState(() => {
-        const storedValue = localStorage.getItem(key);
-        return storedValue ?
-            JSON.parse(storedValue) :
-            initialValue;
-    });
-
-    return [value, setValue];
-};
+import { UseLocalStorage } from '../util/useLocalStorage';
 
 export function Details() {
     const { type, id } = useParams();
@@ -34,12 +23,16 @@ export function Details() {
         collection = db.videogames;
     }
 
-    let current_item;
+    let current_item = null;
     for (const item of collection) {
         if (item.id === parseInt(id)) {
             current_item = item;
             break;
         }
+    }
+
+    if (current_item == null) {
+        return <Navigate to={"/"} />;
     }
     
     function removeQuantity() {

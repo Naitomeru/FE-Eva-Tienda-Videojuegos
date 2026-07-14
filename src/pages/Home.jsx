@@ -29,6 +29,7 @@ function Hero() {
 function Section({title, games}) {
     const items = [];
     for (let i = 0; i < 4; i++) {
+        if (i + 1 >= games.length) break;
         items.push(games[i])
     }
 

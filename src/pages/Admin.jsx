@@ -4,6 +4,7 @@ import { AdminItem } from "../components/AdminItem";
 import styles from "../styles/Admin.module.css";
 import { currentUserSession, dbStorageName } from "../util/constants";
 import { Navigate, useNavigate } from "react-router-dom";
+import { UseLocalStorage } from "../util/useLocalStorage";
 
 export function Admin() {
     const user = JSON.parse(sessionStorage.getItem(currentUserSession)) || null;
@@ -11,20 +12,33 @@ export function Admin() {
         return <Navigate to="/" />;
     }
 
-    const db = JSON.parse(localStorage.getItem(dbStorageName));
+    const [db, setDB] = UseLocalStorage(dbStorageName, null);
 
-    const consolas = db.consoles.map(item => ({
+    const consolas = db.consoles.map((item, index) => ({
         ...item,
-        tipo: "Consola"
+        tipo: "Consola",
+        index: index
     }));
 
-    const juegos = db.videogames.map(item => ({
+    const juegos = db.videogames.map((item, index) => ({
         ...item,
-        tipo: "Videojuego"
+        tipo: "Videojuego",
+        index: index
     }));
 
     const productos = [...consolas, ...juegos];
     const navigate = useNavigate();
+
+    function removeItem(item) {
+        const new_db = {...db};
+        if (item.tipo === "Consola") {
+            new_db.consoles.splice(item.index, 1);
+        } else {
+            new_db.videogames.splice(item.index, 1);
+        }
+        localStorage.setItem(dbStorageName, JSON.stringify(new_db));
+        setDB(new_db);
+    }
 
     return (
         <>
@@ -46,11 +60,12 @@ export function Admin() {
 
                     <div className={styles.listado}>
 
-                        {productos.map(producto => (
+                        {productos.map((producto, index) => (
 
                             <AdminItem
                                 key={producto.tipo + producto.id}
                                 producto={producto}
+                                removeItem={removeItem}
                             />
 
                         ))}

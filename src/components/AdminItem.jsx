@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { priceToString } from "../util/util";
 import styles from "../styles/Admin.module.css";
 
-export function AdminItem({ producto }) {
+export function AdminItem({ producto, removeItem }) {
     return (
         <Link
             to={`/admin/form/${producto.tipo.toLowerCase()}/${producto.id}`}
@@ -28,7 +28,7 @@ export function AdminItem({ producto }) {
                 className={styles.deleteButton}
                 onClick={(e) => {
                     e.preventDefault();
-                    alert("Aquí irá eliminar producto");
+                    removeItem(producto)
                 }}
             >
                 <FontAwesomeIcon icon="trash" />

@@ -31,6 +31,10 @@ export function AdminForm() {
                 item => item.id === Number(id)
             );
         }
+
+        if (!producto) {
+            return <Navigate to="/admin/form" />;
+        }
     }
 
     return (
