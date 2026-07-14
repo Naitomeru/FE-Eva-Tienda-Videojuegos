@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 export function Admin() {
     const [productos, setProductos] = useState([]);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
+    const [busqueda, setBusqueda]= useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -53,6 +54,8 @@ export function Admin() {
                         <input
                             type="text"
                             placeholder="Buscar producto..."
+                            value={busqueda}
+                            onChange={(e) => setBusqueda(e.target.value)}
                         />
                         <button onClick={() => navigate("/admin/form")}>
                             + Agregar producto
