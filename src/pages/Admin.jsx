@@ -3,6 +3,7 @@ import { Footer } from "../components/Footer";
 import { AdminItem } from "../components/AdminItem";
 import styles from "../styles/Admin.module.css";
 import { currentUserSession, dbStorageName } from "../util/constants";
+import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { UseLocalStorage } from "../util/useLocalStorage";
 
@@ -43,6 +44,10 @@ export function Admin() {
         setDB(new_db);
     }
 
+    const productosFiltrados = productos.filter((producto) =>
+    producto.title.toLowerCase().includes(busqueda.toLowerCase())
+    );
+
     return (
         <>
             <Header isInAdminPage={true} />
@@ -64,16 +69,18 @@ export function Admin() {
                     </div>
 
                     <div className={styles.listado}>
-
-                        {productos.map((producto, index) => (
-
+                        
+                        {productosFiltrados.length > 0 ?(productosFiltrados.map((producto) => 
+                        (
                             <AdminItem
                                 key={producto.tipo + producto.id}
                                 producto={producto}
                                 removeItem={removeItem}
                             />
-
-                        ))}
+                        ))
+                    ):(
+                        <p>No se encontraron productos</p>
+                    )}
 
                     </div>
 
