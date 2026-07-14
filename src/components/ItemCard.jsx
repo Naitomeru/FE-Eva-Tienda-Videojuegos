@@ -17,12 +17,12 @@ export function ItemCard({item, type}) {
                 <img src={item.path_image} />
             </div>
             <h2>{item.title}</h2>
-            <p style={item.discount && {textDecoration:"line-through 2px"}}>
+            <p style={item.discount !== undefined ? {textDecoration:"line-through 2px"} : {}}>
                 {priceToString(item.price)}
             </p>
 
             <h3>
-                {item.discount && priceToString(priceWithSale(item.price, item.discount))}
+                {item.discount !== undefined && priceToString(priceWithSale(item.price, item.discount))}
             </h3>
         </Link>
     )

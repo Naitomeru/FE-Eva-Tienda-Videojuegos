@@ -35,6 +35,6 @@ export function priceToString(price) {
  * @returns {number} El precio truncado
  */
 export function priceWithSale(price, sale) {
-    const final_price = Math.floor(price * sale);
+    const final_price = Math.floor(price * (1 - sale));
     return final_price - (final_price % 10);
 }
