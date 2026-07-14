@@ -182,7 +182,9 @@
     font-weight:bold;
 }
 
-.formContainer input,
+.formContainer input[type=text],
+.formContainer input[type=number],
+.formContainer input[type=file],
 .formContainer select {
 
     padding:12px;
@@ -195,8 +197,34 @@
 /* ----------------- OPCIONES DEL PRODUCTO ----------------- */
 .checks {
     display:flex;
-    gap:30px;
+    flex-direction: column;
+    gap:10px;
     margin-top:10px;
+    justify-content: start;
+}
+
+.checks label {
+    display: block;
+    align-self: flex-start;
+}
+
+.checks label:hover {
+    cursor: pointer;
+}
+
+.slider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.slider input[type=number] {
+    width: 50px;
+}
+
+.slider input[type=range] {
+    width: 100%;
 }
 
 /* ----------------- BOTONES DEL FORMULARIO ----------------- */

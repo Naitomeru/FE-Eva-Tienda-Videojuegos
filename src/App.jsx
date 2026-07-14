@@ -1,5 +1,5 @@
 import './styles.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Gallery } from "./pages/Gallery";
@@ -16,9 +16,12 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { saveUser } from './util/session';
-import { currentUserSession } from './util/constants';
+import { currentUserSession, databaseFile, dbStorageName } from './util/constants';
+import { loadData } from './util/fetch';
 
 function App() {
+    const db = JSON.parse(localStorage.getItem(dbStorageName)) || null;
+    const [isDataLoaded, setIsDataLoaded] = useState(db != null ? true : false);
 
     useEffect(() => {
         function onCloseTab(e) {
@@ -29,10 +32,21 @@ function App() {
 
         window.addEventListener("beforeunload", onCloseTab);
 
+        async function fetchData() {
+            let data = await loadData(databaseFile);
+            localStorage.setItem(dbStorageName, JSON.stringify(data));
+            setIsDataLoaded(true);
+        }
+        if (!isDataLoaded) {
+            fetchData();
+        }
+
         return () => {
             window.removeEventListener("beforeunload", onCloseTab);
         };
     }, []);
+
+    if (!isDataLoaded) return null;
 
     return (
         <Routes>
@@ -42,10 +56,10 @@ function App() {
             <Route path="/carrito" element={<Cart />} />
             <Route path="/iniciar-sesion" element={<Login />} />
             <Route path="/registrarse" element={<Register />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/form" element={<AdminForm />} />
             <Route path="/admin/form/:tipo/:id" element={<AdminForm />}/>
+            <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
     )
 }

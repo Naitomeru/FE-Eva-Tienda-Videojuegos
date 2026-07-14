@@ -7,7 +7,7 @@ import { createPortal } from 'react-dom';
 import styles from '../styles/Header.module.css';
 import { saveUser } from '../util/session';
 
-function HeaderButtonsPopup({setMoreButtonPopup}) {
+function HeaderButtonsPopup({setMoreButtonPopup, user, closeSession}) {
     const [consolas, setConsolas] = useState(false);
     const [videojuegos, setVideojuegos] = useState(false);
 
@@ -15,10 +15,19 @@ function HeaderButtonsPopup({setMoreButtonPopup}) {
         <div className={styles.mainDropdown}>
             <Link to="/carrito">Mi Carrito</Link>
             <div className={styles.popupSeparator}></div>
-            <Link to="/iniciar-sesion">Iniciar sesión</Link>
-            <div className={styles.popupSeparator}></div>
-            <Link to="/registrarse">Registrarse</Link>
-            <div className={styles.popupSeparator}></div>
+            {user == null ?
+            <>
+                <Link to="/iniciar-sesion">Iniciar sesión</Link>
+                <div className={styles.popupSeparator}></div>
+                <Link to="/registrarse">Registrarse</Link>
+                <div className={styles.popupSeparator}></div>
+            </>
+            :
+            <>
+                <button onClick={closeSession}>Cerrar sesión</button>
+                <div className={styles.popupSeparator}></div>
+            </>
+            }
             <Link to="/productos/ofertas" onClick={() => setMoreButtonPopup(false)}>Ofertas</Link>
             <div className={styles.popupSeparator}></div>
             <Link to="/productos/preventas" onClick={() => setMoreButtonPopup(false)}>Preventas</Link>
@@ -74,7 +83,7 @@ function HeaderButtonsPopup({setMoreButtonPopup}) {
     )
 }
 
-function MainHeader({showRightButtons, isLogin}) {
+function MainHeader({showRightButtons, isLogin, isInAdminPage}) {
     const user = JSON.parse(sessionStorage.getItem(currentUserSession)) || null;
 
     const navigate = useNavigate();
@@ -121,7 +130,9 @@ function MainHeader({showRightButtons, isLogin}) {
             <>
                 <div className={styles.userName}>ADMIN</div>
                 <div className={styles.login}>
-                    <Link>Opciones</Link>
+                    {!isInAdminPage &&
+                    <Link to="/admin">Opciones</Link>
+                    }
                     <button onClick={closeSession}>
                         Cerrar sesión
                     </button>
@@ -151,20 +162,29 @@ function MainHeader({showRightButtons, isLogin}) {
             <Link to="/" className={styles.logo} >
                 <img src={Logo} className={styles.logoImg}  />
             </Link>
-    
+
+            {!isInAdminPage &&
             <div className={styles.headerSearcher}>
                 <input type="text" placeholder="Buscar..." className={styles.searcherInput}  />
                 <button type="submit"  className={styles.searcherButton} >
                     <FontAwesomeIcon icon="fa fa-search" />
                 </button>
             </div>
+            }
 
             {showRightButtons && rightButtons}
             
             <div className={styles.moreButton}>
                 <FontAwesomeIcon icon="fa-solid fa-grip-lines" onClick={onMoreButtonClick} />
                 {moreButtonPopup &&
-                createPortal(<HeaderButtonsPopup setMoreButtonPopup={setMoreButtonPopup} />, document.getElementsByTagName("header")[0])
+                createPortal(
+                    <HeaderButtonsPopup
+                        setMoreButtonPopup={setMoreButtonPopup}
+                        user={user}
+                        closeSession={closeSession}
+                    />,
+                    document.getElementsByTagName("header")[0]
+                )
                 }
             </div>
         </div>
@@ -230,11 +250,13 @@ function HeaderButtons() {
     )
 }
 
-export function Header({showRightButtons=true, isLogin=false}) {
+export function Header({showRightButtons=true, isLogin=false, isInAdminPage=false}) {
     return (
         <header className={styles.header}>
-            <MainHeader showRightButtons={showRightButtons} isLogin={isLogin} />
+            <MainHeader showRightButtons={showRightButtons} isLogin={isLogin} isInAdminPage={isInAdminPage} />
+            {!isInAdminPage &&
             <HeaderButtons />
+            }
         </header>
     )
 }

@@ -176,14 +176,23 @@
     border-radius: 2px;
 }
 
-.mainDropdown a, .mainDropdown div {
+.mainDropdown a, .mainDropdown div, .mainDropdown button {
     font-size: 20px;
     margin: 5px 0;
     color: var(--text-color);
 }
 
+.mainDropdown button {
+    border: 0;
+    background-color: unset;
+    text-align: left;
+    padding: 0;
+    cursor: pointer;
+}
+
 .dropdownButton {
     float: right;
+    cursor: pointer;
 }
 
 .dropdownContent {

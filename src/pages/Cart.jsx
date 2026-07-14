@@ -1,24 +1,12 @@
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { priceToString, priceWithSale } from "../util/util";
-import { cartStorageName, consolesFile, currentUserSession, usersStorageName, videogamesFile } from "../util/constants";
-import { useState, useEffect } from "react";
+import { cartStorageName, currentUserSession, dbStorageName } from "../util/constants";
+import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from '../styles/Cart.module.css'
 import { Navigate } from "react-router-dom";
-import { loadData } from '../util/fetch';
-
-// Custom hook to manage localStorage
-const UseLocalStorage = (key, initialValue) => {
-    const [value, setValue] = useState(() => {
-        const storedValue = localStorage.getItem(key);
-        return storedValue ?
-            JSON.parse(storedValue) :
-            initialValue;
-    });
-
-    return [value, setValue];
-};
+import { UseLocalStorage } from "../util/useLocalStorage";
 
 function CartItemBig({index, item, removeQuantity, addQuantity, removeItem}) {
     return (
@@ -104,24 +92,8 @@ export function Cart() {
         return <Navigate to="/" />;
     }
 
+    const db = JSON.parse(localStorage.getItem(dbStorageName));
     const [cart, setCart] = user ? useState(user.cart) : UseLocalStorage(cartStorageName, []);
-
-    const [isDataLoaded, setIsDataLoaded] = useState(false);
-    const [dbConsoles, setDbConsoles] = useState([]);
-    const [dbVideogames, setDbVideogames] = useState([]);
-
-    useEffect(() => {
-        async function fetchData() {
-            let data = await loadData(consolesFile);
-            setDbConsoles(data.consoles);
-            data = await loadData(videogamesFile);
-            setDbVideogames(data.games);
-            setIsDataLoaded(true);
-        }
-        fetchData();
-    }, []);
-
-    if (!isDataLoaded) return null;
 
     function deleteCart() {
         if (user) {
@@ -135,29 +107,46 @@ export function Cart() {
     }
 
     function getItem(item_in_cart) {
-        const collection = item_in_cart.type === "console" ? dbConsoles : dbVideogames;
+        const collection = item_in_cart.type === "console" ? db.consoles : db.videogames;
 
         for (const item of collection) {
             if (item.id == item_in_cart.id) {
                 return item;
             }
         }
+        return null;
     }
 
     let total = 0;
     const cart_items = []
+    let item_dont_exist = false;
     for (const item_in_cart of cart) {
         const item = getItem(item_in_cart);
-        if (item.discount) {
-            total += priceWithSale(item.price, item.discount) * item_in_cart.quantity;
+        if (item == null) {
+            item_dont_exist = true;
         } else {
-            total += item.price * item_in_cart.quantity;
+            if (item.discount) {
+                total += priceWithSale(item.price, item.discount) * item_in_cart.quantity;
+            } else {
+                total += item.price * item_in_cart.quantity;
+            }
+            cart_items.push({
+                "item": item,
+                "type": item_in_cart.type,
+                "quantity": item_in_cart.quantity
+            });
         }
-        cart_items.push({
-            "item": item,
-            "type": item_in_cart.type,
-            "quantity": item_in_cart.quantity
-        })
+    }
+
+    if (item_dont_exist) {
+        if (user) {
+            const newInfo = {...user};
+            newInfo.cart = cart_items;
+            sessionStorage.setItem(currentUserSession, JSON.stringify(newInfo));
+        } else {
+            localStorage.setItem(cartStorageName, JSON.stringify(cart_items));
+        }
+        setCart(cart_items);
     }
 
     function removeQuantity(item, index) {
@@ -217,7 +206,7 @@ export function Cart() {
             <main className={styles.main}>
                 <h1>Carrito</h1>
                 <div>
-                    {cart.length > 0 ?
+                    {cart_items.length > 0 ?
                     <div className={styles.cartDetails}>
                         <div className={styles.cartBig}>
                             <h3>Producto</h3>

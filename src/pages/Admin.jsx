@@ -1,51 +1,51 @@
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
-import { BrandCarousel } from "../components/BrandCarousel";
 import { AdminItem } from "../components/AdminItem";
 import styles from "../styles/Admin.module.css";
-import { useEffect, useState } from "react";
-import { loadData } from "../util/fetch";
-import { consolesFile, videogamesFile } from "../util/constants";
-import { useNavigate } from "react-router-dom";
+import { currentUserSession, dbStorageName } from "../util/constants";
+import { Navigate, useNavigate } from "react-router-dom";
+import { UseLocalStorage } from "../util/useLocalStorage";
 
 export function Admin() {
-    const [productos, setProductos] = useState([]);
-    const [isDataLoaded, setIsDataLoaded] = useState(false);
+    const user = JSON.parse(sessionStorage.getItem(currentUserSession)) || null;
+    if (!user || !user.admin) {
+        return <Navigate to="/" />;
+    }
+
+    const [db, setDB] = UseLocalStorage(dbStorageName, null);
+
+    const consolas = db.consoles.map((item, index) => ({
+        ...item,
+        tipo: "Consola",
+        index: index
+    }));
+
+    const juegos = db.videogames.map((item, index) => ({
+        ...item,
+        tipo: "Videojuego",
+        index: index
+    }));
+
+    const productos = [...consolas, ...juegos];
+
     const [busqueda, setBusqueda]= useState("");
+    
     const navigate = useNavigate();
 
-    useEffect(() => {
-
-        async function fetchData() {
-
-            let data = await loadData(consolesFile);
-
-            const consolas = data.consoles.map(item => ({
-                ...item,
-                tipo: "Consola"
-            }));
-
-            data = await loadData(videogamesFile);
-
-            const juegos = data.games.map(item => ({
-                ...item,
-                tipo: "Videojuego"
-            }));
-
-            setProductos([...consolas, ...juegos]);
-
-            setIsDataLoaded(true);
-
+    function removeItem(item) {
+        const new_db = {...db};
+        if (item.tipo === "Consola") {
+            new_db.consoles.splice(item.index, 1);
+        } else {
+            new_db.videogames.splice(item.index, 1);
         }
+        localStorage.setItem(dbStorageName, JSON.stringify(new_db));
+        setDB(new_db);
+    }
 
-        fetchData();
-
-    }, []);
-
-    if (!isDataLoaded) return null;
     return (
         <>
-            <Header />
+            <Header isInAdminPage={true} />
             <main className={styles.main}>
 
                 <div className={styles.container}>
@@ -65,11 +65,12 @@ export function Admin() {
 
                     <div className={styles.listado}>
 
-                        {productos.map(producto => (
+                        {productos.map((producto, index) => (
 
                             <AdminItem
                                 key={producto.tipo + producto.id}
                                 producto={producto}
+                                removeItem={removeItem}
                             />
 
                         ))}
@@ -80,7 +81,6 @@ export function Admin() {
 
             </main>
 
-            <BrandCarousel />
             <Footer />
         </>
     );
